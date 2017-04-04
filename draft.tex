@@ -25,7 +25,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%%%% AUTHORS - PLACE YOUR OWN COMMANDS HERE %%%%%
+\newcommand*\dif{\mathop{}\!\mathrm{d}}
 
 % Please keep new commands to a minimum, and use \newcommand not \def to avoid
 % overwriting existing commands. Example:
@@ -91,18 +91,16 @@ in context, cites relevant earlier studies in the field by \citet{Others2013},
 and describes the problem the authors aim to solve \citep[e.g.][]{Author2012}.
 
 \section{Data}
+\label{sec:data}
 
 In this work we have considered haloes from two different catalogues:
 
 \begin{description}
-\item \textbf{The Millennium Simulation}: here we present a simulation of the growth of dark matter structure using 2,1603 particles, following them from redshift z = 127 to the present in a cube-shaped region 2.230 billion lightyears on a side
+\item \textbf{The Millennium Simulation}: here we present a simulation of the growth of dark matter structure using 2,1603 particles, following them from redshift z = 127 to the present in a cube-shaped region 2.230 billion light years on a side
 \item \textbf{The Millennium-XXL Simulation (MXXL)}: with a box side of 3 Gpc h$^{−1}$, it was especially tailored to study massive haloes which can be only found in very large volumes. It 
 \end{description}
 
-\begin{equation}
-    x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}.
-	\label{eq:quadratic}
-\end{equation}
+
 
 \subsection{Figures and tables}
 
@@ -125,22 +123,110 @@ e.g. Table~\ref{tab:example_table}.
 \end{figure}
 
 % Example table
-\begin{table}
-	\centering
-	\caption{This is an example table. Captions appear above each table.
-	Remember to define the quantities, symbols and units used.}
-	\label{tab:example_table}
-	\begin{tabular}{lccr} % four columns, alignment for each
-		\hline
-		A & B & C & D\\
-		\hline
-		1 & 2 & 3 & 4\\
-		2 & 4 & 6 & 8\\
-		3 & 5 & 7 & 9\\
-		\hline
-	\end{tabular}
-\end{table}
+%\begin{table}
+%	\centering
+%	\caption{This is an example table. Captions appear above each table.
+%	Remember to define the quantities, symbols and units used.}
+%	\label{tab:example_table}
+%	\begin{tabular}{lccr} % four columns, alignment for each
+%		\hline
+%		A & B & C & D\\
+%		\hline
+%		1 & 2 & 3 & 4\\
+%		2 & 4 & 6 & 8\\
+%		3 & 5 & 7 & 9\\
+%		\hline
+%	\end{tabular}
+%\end{table}
 
+\section{Methodology}
+To measure the correlation between the shapes of galaxy clusters and the density field we proceed as in \citet{vanUitertJoachimi2017}, namely we define an estimator as a function of the comoving transverse distance $R_p$ and the line-of-sight distance $\Pi$:
+\begin{equation}
+    \hat{\xi}_{g+}(R_p, \Pi) = \frac{S_+ D_d}{D_s D_d}-\frac{S_+ R}{D_s R},
+	\label{eq:xigphat}
+\end{equation}
+where $S_+ D_d$ represents the correlation between cluster shapes and the density sample, $D_s D_d$ the number of cluster shape - density pairs, $S_+ R$ the correlation between cluster shapes and random points and $D_s R$ the number of cluster shape - random point pairs. We then integrate along the line of sight to obtain the total projected intrinsic alignment signal:
+\begin{equation}
+   \hat{w}_{g+} (R_p) = \int _0 ^{\Pi_{max}} \dif \Pi \ \hat{\xi}_{g+}(R_p, \Pi);
+	\label{eq:wgphat}
+\end{equation}
+throughout this work, we adopt $\Pi_{max} = 60 $ Mpc$/h$, a value large enough not to miss part of the signal but small enough not to pick up too much noise. ***ASK IF $\Pi_{min} = 0$ IS CORRECT***
+
+We describe the intrinsic alignment signal by simplifying the model in \citet{vanUitertJoachimi2017}, namely we assume:
+\begin{equation}
+    w_{g+} (R_p, M)=A_{IA} (M) \ b_g (M)\ w_{\delta +}^{model} (R_p), 
+	\label{eq:wgp}
+\end{equation}
+with $A_{IA} (M)$ the amplitude of the intrinsic alignment signal, $b_g (M)$ the cluster bias and $w_{\delta +}^{model} (R_p)$ a function in which we include the dependence on $R_p$  \citep[equation 5]{vanUitertJoachimi2017}; the dependence in the mass of the halo M is in both the $A_{IA} (M)$ and $b_g (M)$ factors.
+
+We also use the LS \citep{LandySzalay1993} estimator to calculate the clustering signal:
+\begin{equation}
+    \hat{\xi}_{gg}(R_p, \Pi) = \frac{D_dD_d -2D_dR + RR}{RR},
+	\label{eq:xigghat}
+\end{equation}
+where $D_dD_d$ represents the number of cluster pairs, $D_dR$ the number of cluster - random point pairs, and $RR$ the number of random point pairs. We then integrate along the line of sight to obtain the total projected clustering signal:
+\begin{equation}
+   \hat{w}_{gg} (R_p) = \int _0 ^{\Pi_{max}} \dif \Pi \ \hat{\xi}_{gg}(R_p, \Pi).
+	\label{eq:wgghat}
+\end{equation}
+
+We describe the clustering signal with a simple model:
+\begin{equation}
+    w_{gg} (R_p, M)=b_g^2 (M)\ w_{\delta \delta}^{model} (R_p), 
+	\label{eq:wgg}
+\end{equation}
+with $w_{\delta \delta}^{model} (R_p)$ a function in which we include the dependence on $R_p$ \citep[equation 9]{vanUitertJoachimi2017}.
+
+To get rid of the cluster bias $b_g (M)$ factor and focus on the mass dependence of the amplitude $A_{IA} (M)$, we define:
+\begin{equation}
+    r_{g+} (R_p, M)=\frac{w_{g+} (R_p)}{\sqrt{w_{gg} (R_p)}} =\frac{A_{IA} (M) w_{\delta +}^{model} (R_p) }{\sqrt{w_{\delta \delta}^{model} (R_p)}}
+	\label{eq:rg+}
+\end{equation}
+where we assume that the clustering signal $w_{gg}(R_p)$ is positive, which is indeed true if we evaluate it at a reasonably small $R_p = R_p^*$ - see Sect. for further discussion. If we evaluate the whole expression in Eq.~\ref{eq:rg+} at this same value $R_p^*$, which we adopt to be the the midpoint of a logarithmic bin which covers $6 \ \mbox{Mpc}/h < R_p < 30 \ \mbox{Mpc}/h$, we obtain the quantity:
+\begin{equation}
+    r_{g+} (M) = r_{g+} (R_p = R_p^*, M) \propto A_{IA} (M)
+	\label{eq:rg+m}
+\end{equation}
+where we stress that this quantity now only depends on the mass of the halo M. The goal of this paper is to study the dependence on the mass of the amplitude $A_{IA} (M)$ by studying the quantity $r_{g+} (M)$: assuming that
+\begin{equation}
+A_{IA} (M)\propto M^{\beta}, 
+	\label{eq:aia}
+\end{equation}
+we can adopt the following model for $r_{g+} (M)$:
+\begin{equation}
+    r_{g+} (M) = A \cdot  M^{\beta}
+	\label{eq:modelrg+}
+\end{equation}
+with $A$ a generic amplitude with no physical meaning, and $\beta$ as in Eq.~\ref{eq:aia}.
+
+To achieve this goal, we select the objects of the catalogues described in Sect.~\ref{sec:data} in $n = 5$ logarithmic mass bins, between $10^{11} M_{\sun}$ and $10^{14} M_{\sun}$ for the MS and between $10^{12.5} M_{\sun}$ and $10^{15} M_{\sun}$ for the MXXL, we split them in $N = 3^3 = 27$ sub-boxes based on their positions inside the cube of the respective simulation, and calculate $w_{g+}$ and $w_{gg}$ for each of the N sub-samples by replacing the integrals in Eq.~\ref{eq:wgphat} and \ref{eq:wgghat} with a sum over 20 line-of-sight bins, each $(\Pi_{max} - \Pi_{min})/ 20 \ \mbox{Mpc}/h$ wide.  The points showed in Fig.~ are the arithmetical mean of the $N$ values for each mass bin, while the error bars are represented by the standard deviation of the values.
+
+***ARE WE SURE THAT THE DEFINITION OF THE VIRIAL MASS IS THE SAME IN BOTH THE SIMULATIONS? CAN'T FIND ANY REFERENCE FOR THE MILLENNIUM, BUT FOR THE MXXL THEY SAY CONVENTIONAL, SO IT SHOULD BE OK***
+
+We then perform a posterior analysis over the data to retrieve the values of $A$ and $\beta$: according to Bayes' theorem, if $\boldsymbol{d}$ is the vector of the data and $\boldsymbol{p}$ the vector of the parameters, 
+\begin{equation}
+    P(\boldsymbol{p} | \boldsymbol{d}) \propto P(\boldsymbol{d} | \boldsymbol{p}) \ P(\boldsymbol{p}) \propto e^{-\frac{1}{2} \chi ^2} P(\boldsymbol{p})
+	\label{eq:bayes}
+\end{equation}
+with  $P(\boldsymbol{p} | \boldsymbol{d})$ the posterior probability,  $P(\boldsymbol{d} | \boldsymbol{p})$ the likelihood function, $P(\boldsymbol{p})$ the prior probability and $\chi ^2 = (\boldsymbol{d} - \boldsymbol{m})^T \mathbf{C}^{-1} (\boldsymbol{d} - \boldsymbol{m})$, with $\boldsymbol{m}$ the vector of the model and $\mathbf{C}^{-1}$ the precision matrix, the inverse of the covariance matrix $\mathbf{C}$. We assume flat, uninformative priors in the fit with ranges $\log_{10} A \in [-1.7;-0.6]$  and $\beta \in [0;0.5]$. We estimate the covariance matrix from the data as in \citet{Tayloretal2013}:
+\begin{equation}
+     \mathbf{C}_{\mu \nu} = \frac{1}{N-1} \sum_{i = 1}^{N} (x_{i, \mu} - \overline{x}_{\mu})(x_{i, \nu} - \overline{x}_{\nu})
+	\label{eq:covariance}
+\end{equation}
+with $\mu, \nu \in \{1, \dotso, n\},  \overline{x}_{\mu} = \frac{1}{N} \sum_{i=1}^{N} x_{i, \mu},$ and $x_{i, \mu}= r_{g+}(M)$ for each sub-box and each mass bin, as defined in Eq.~\ref{eq:rg+}. We then invert the covariance matrix and correct the bias on the inverse to obtain an unbiased estimate of the precision matrix, given by:
+\begin{equation}
+     \mathbf{C}^{-1}_{\mbox{unbiased}} = \frac{N - n -2}{N-1}  \mathbf{C}^{-1}
+	\label{eq:precunbiased}
+\end{equation}
+where we assume $N > n+2$. The results of the analysis are presented in Sect.~\ref{sec:resanddiscuss}.
+
+The choice of $n$ and $N$ is constrained by many factors: first of all, if N is too large the single values of $w_{gg}$ (and $w_{g+}$) tend to fluctuate around the mean, thus increasing the error bar and sometimes plunging below 0, which is unacceptable for our choice of $ r_{g+} (R_p, M)$, as specified after Eq.~\ref{eq:rg+}. Furthermore, we want $n$ to be large enough to be capable of displaying the trend of the signals along the whole mass range chosen. Finally, we need to take $n \ll N$ to avoid divergences related to the fact that we estimate the covariance from a finite number of samples \citep{Tayloretal2013}.
+
+\section{Results and discussion}
+We first show the trend of $w_{g+}$ and $w_{gg}$ with $R_p$ for the lowest, middle and largest mass bin, for both the catalogues; note that around $R_p = R_p^*$ $w_{gg}$ is always positive witihin the error bar, so that Eq.~\ref{eq:rg+} always returns a real value.
+
+
+\label{sec:resanddiscuss}
 
 \section{Conclusions}
 
@@ -164,10 +250,13 @@ BJ acknowledges support by an STFC Ernest Rutherford Fellowship, grant reference
 % Alternatively you could enter them by hand, like this:
 % This method is tedious and prone to error if you have lots of references
 \begin{thebibliography}{99}
-\bibitem[\protect\citeauthoryear{Author}{2012}]{Author2012}
-Author A.~N., 2013, Journal of Improbable Astronomy, 1, 1
-\bibitem[\protect\citeauthoryear{Others}{2013}]{Others2013}
-Others S., 2012, Journal of Interesting Stuff, 17, 198
+\bibitem[\protect\citeauthoryear{Landy \& Szalay}{1993}]{LandySzalay1993}
+Landy S.~D., Szalay A.~S., 1993, \href{http://adsabs.harvard.edu/doi/10.1086/172900}{ApJ}, \href{http://adsabs.harvard.edu/doi/10.1086/172900}{412}, \href{http://adsabs.harvard.edu/doi/10.1086/172900}{64}
+\bibitem[\protect\citeauthoryear{Taylor et al.}{2013}]{Tayloretal2013}
+Taylor A., Joachimi B., Kitching T., 2013,  \href{https://academic.oup.com/mnras/article-lookup/doi/10.1093/mnras/stt270}{MNRAS}, \href{http://adsabs.harvard.edu/abs/2013MNRAS.432.1928}{432}, \href{http://adsabs.harvard.edu/abs/2013MNRAS.432.1928}{1928}
+\bibitem[\protect\citeauthoryear{van Uitert \& Joachimi}{2017}]{vanUitertJoachimi2017}
+van Uitert E., Joachimi B., 2017, preprint (\href{https://arxiv.org/abs/1701.02307}{arXiv:1701.02307v1}) 
+
 \end{thebibliography}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
