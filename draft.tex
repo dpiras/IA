@@ -22,10 +22,13 @@
 \usepackage{graphicx}	% Including figure files
 \usepackage{amsmath}	% Advanced maths commands
 \usepackage{amssymb}	% Extra maths symbols
+\usepackage{subfig}	% For figures position
+\usepackage{epstopdf}	% To use .eps files with pdfLaTeX
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\newcommand*\dif{\mathop{}\!\mathrm{d}}
+\newcommand*\dif{\mathop{}\!\mathrm{d}} 	% to have a proper differential symbol in integrals
+\def\arraystretch{1.5}	% to control the spacing of columns
 
 % Please keep new commands to a minimum, and use \newcommand not \def to avoid
 % overwriting existing commands. Example:
@@ -37,13 +40,13 @@
 
 % Title of the paper, and the short title which is used in the headers.
 % Keep the title short and informative.
-\title[Short title, max. 45 characters]{ Title goes here}
+\title[Slope of intrinsic alignment vs mass signal]{What's the slope of galaxy clusters intrinsic alignment?}
 
 % The list of authors, and the short list which is used in the headers.
 % If you need two or more lines of authors, add an extra line using \newauthor
 \author[D. Piras et al.]{
-D. Piras,$^{1}$\thanks{E-mail: davide.piras@studenti.unipd.it}
-B. Joachimi,$^{2}$
+Davide Piras$^{1}$\thanks{E-mail: davide.piras@studenti.unipd.it}
+and Benjamin Joachimi$^{2}$
 \\
 % List of institutions
 $^{1}$Dipartimento di Fisica ``G. Galilei'', Universit\`{a} di Padova, via Marzolo 8, I-35131 Padova, Italy\\
@@ -73,7 +76,7 @@ No references should appear in the abstract.
 % Select between one and six entries from the list of approved keywords.
 % Don't make up new ones.
 \begin{keywords}
-keyword1 -- keyword2 -- keyword3
+intrinsic alignment -- Millennium simulation -- Millennium-XXL simulation
 \end{keywords}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -81,65 +84,58 @@ keyword1 -- keyword2 -- keyword3
 %%%%%%%%%%%%%%%%% BODY OF PAPER %%%%%%%%%%%%%%%%%%
 
 \section{Introduction}
-
-\subsection{}This is a simple template for authors to write new MNRAS papers.
-See \texttt{mnras\_sample.tex} for a more complex example, and \texttt{mnras\_guide.tex}
-for a full user guide.
-
-All papers should start with an Introduction section, which sets the work
-in context, cites relevant earlier studies in the field by \citet{Others2013},
-and describes the problem the authors aim to solve \citep[e.g.][]{Author2012}.
-
+\label{sec:intro}
+TALK ABOUT INTRINSIC ALIGNMENT, AND WHY IT IS IMPORTANT (FUTURE SURVEYS)
+When looking at the sky, one would expect to see randomly distributed stars and galaxies, assuming a homogeneous and isotropic universe, whereas correlation between galaxies orientation is actually observed; plenty of reasons can be exhibited to explain this, as . Morover, intrinsic alignment  
+In this work we show an analysis for both galaxies and galaxy clusters using simulation (Sect.~\ref{sec:data}) and real data (Sect.~\ref{sec:resanddiscuss}); our method is presented in Sect.~\ref{sec:method}.
 \section{Data}
 \label{sec:data}
+In this work we consider haloes from two different simulations: 
+\begin{enumerate}
+\item the \textbf{Millennium Simulation (MS)}, first presented in \citet{Springeletal2005}, which uses $2160^3$ dark matter particles of mass $m_P = 1.2 \times 10^9 M_{\sun}$ enclosed in a 500-Mpc$/h$-side box to sample dark matter haloes and study their growth. In particular, we take into consideration 2 of its 64 snapshots, i.e.\ the one at $z = 0$ (snapshot $63$), which we use for all our analysis, and the one at $z \simeq 0.45$ (snapshot $49$), which is studied only as an aside.
 
-In this work we have considered haloes from two different catalogues:
+*** I AM NOT SURE ABOUT THIS PART BECAUSE WE NEVER DISCUSSED ABOUT IT: HOW WAS OUR CATALOGUE BUILT?***
+Dark matter haloes are identified as in \citet{Joachimietal2013a} and references therein; the shape of each halo is described by the eigenvalues and eigenvectors of the simple inertia tensor
+\begin{equation}
+    \mathbf{M}_{\mu \nu} = m_P \sum_{i=1}^{N_P} r_{i, \mu} r_{i, \nu}
+	\label{eq:sit}
+\end{equation}
+where $N_P$ is the total number of particles within the halo, and $\mathbf{r}_{i}$ is the vector that indicates the position of the $i-$th particle with respect to the centre of the halo, i.e.\ the gravitational potential minimum. In Fig.~\ref{fig:vsmass} we also show the results that we obtain if we consider a reduced inertia tensor, which is defined as \citep{Pereiraetal2008}:
+\begin{equation}
+    \mathbf{M}_{\mu \nu}^{red} = m_P \sum _{i=1}^{N_P} \frac{r_{i, \mu} r_{i, \nu}}{r_i^2}
+	\label{eq:rit}
+\end{equation}
+with $r_i^2$ the square of the three-dimensional distance of the i-th particle from the centre of the halo; the reduced inertia tensor is more weighted towards the centre of the halo, and may yield a more reliable approximation of the shape of the galaxy \citep{Joachimietal2013b, Chisarietal2015}. We place the eigenvector corresponding the the largest eigenvalue along the line of sight, and project the ellipsoid onto the plane of the sky defined by this choice: the resulting ellipse is the shape of the galaxy. We proceed as in \citet{Joachimietal2013a} to define the ellipticity of the galaxy, considering our objects as early-type galaxies: indicating the three unit eigenvectors as $\mathbf{s}_{\mu} = \big \{ s_{x, \mu}, s_{y, \mu}, s_{\mathbin{\|}, \mu}\big \}^\intercal$ and the absolute values of the semi-axes as $\omega_{\mu}$, $\mu \in \{1,2,3\}$, we define a symmetric tensor
+\begin{equation}
+    \mathbf{W}^{-1} = \sum _{\mu=1}^{3} \frac{s_{\perp, \mu} s^\intercal_{\perp, \nu}}{\omega_{\mu}^2} - \frac{\mathbf{\kappa}\mathbf{\kappa}^{\intercal}}{\alpha^2}
+	\label{eq:symtensor}
+\end{equation}
+with $s_{\perp, \mu} = \big \{ s_{x, \mu}, s_{y, \mu}\big \}^\intercal$ the eigenvector projected along the line of sight, 
+\begin{equation}
+   \mathbf{\kappa} = \sum_{\mu = 1}^{3} \frac{s_{\mathbin{\|}, \mu} \mathbf{s}_{\perp, \mu}}{\omega_{\mu}^2}
+	\label{eq:kappa}
+\end{equation}
+and 
+\begin{equation}
+    \alpha^2=\sum_{\mu = 1}^{3} \bigg( \frac{s_{\mathbin{\|}, \mu}}{\omega_{\mu}} \bigg)^2.
+	\label{eq:alpha}
+\end{equation}
+We then compute the two components of the complex polarisation $e$, which defines the galaxy ellipticity \citep{BartelmannSchneider2001}:
+\begin{align}
+    	e_{1} = \frac{W_{11} - W_{22}}{W_{11} + W_{22}}; \\ 
+           e_{2} = \frac{2 W_{12}}{W_{11} + W_{22}}.
+\end{align}
+\item the \textbf{Millennium-XXL Simulation (MXXLS)}, which samples $6720^3$ dark matter particles of mass $m_P = 8.456 \times 10^9 M_{\sun}$ confined in a cubic region of $3000$ Mpc$/h$ on a side \citep{Anguloetal2012}; in this case, we consider only one snapshot, at $z = 0$. Particles are selected using an ellipsoidal overdensity algorithm, as described in \citet{Despalietal2013} and in \citet{Bonamigoetal2015}; the shape of the haloes is then derived as for the MS from the eigenvectors and eigenvalues of the mass tensor 
+\begin{equation}
+    \mathbf{M}_{\mu \nu} = m_P \sum_{i=1}^{N_P} \frac{r_{i, \mu} r_{i, \nu}}{M_{TOT}} = \frac{1}{N_P} \sum_{i=1}^{N_P} r_{i, \mu} r_{i, \nu}
+	\label{eq:mt}
+\end{equation}
+with $M_{TOT}$ the total mass of the object. Note that the mass tensor (Eq.~\ref{eq:mt}) and the inertia tensor (Eq.~\ref{eq:sit}) are different quantities \citep{Bettetal2007},  but the analysis on the two simulations yields pretty consistent results, as will be shown; also, for this catalogue no ``reduced'' tensor is taken into consideration.
+\end{enumerate}
 
-\begin{description}
-\item \textbf{The Millennium Simulation}: here we present a simulation of the growth of dark matter structure using 2,1603 particles, following them from redshift z = 127 to the present in a cube-shaped region 2.230 billion light years on a side
-\item \textbf{The Millennium-XXL Simulation (MXXL)}: with a box side of 3 Gpc h$^{−1}$, it was especially tailored to study massive haloes which can be only found in very large volumes. It 
-\end{description}
-
-
-
-\subsection{Figures and tables}
-
-Figures and tables should be placed at logical positions in the text. Don't
-worry about the exact layout, which will be handled by the publishers.
-
-Figures are referred to as e.g. Fig.~\ref{fig:example_figure}, and tables as
-e.g. Table~\ref{tab:example_table}.
-
-% Example figure
-\begin{figure}
-	% To include a figure from a file named example.*
-	% Allowable file formats are eps or ps if compiling using latex
-	% or pdf, png, jpg if compiling using pdflatex
-	\includegraphics[width=\columnwidth]{example}
-    \caption{This is an example figure. Captions appear below each figure.
-	Give enough detail for the reader to understand what they're looking at,
-	but leave detailed discussion to the main body of the text.}
-    \label{fig:example_figure}
-\end{figure}
-
-% Example table
-%\begin{table}
-%	\centering
-%	\caption{This is an example table. Captions appear above each table.
-%	Remember to define the quantities, symbols and units used.}
-%	\label{tab:example_table}
-%	\begin{tabular}{lccr} % four columns, alignment for each
-%		\hline
-%		A & B & C & D\\
-%		\hline
-%		1 & 2 & 3 & 4\\
-%		2 & 4 & 6 & 8\\
-%		3 & 5 & 7 & 9\\
-%		\hline
-%	\end{tabular}
-%\end{table}
-
+In the simulations the same set of cosmological parameters is adopted, namely they both assume a spatially flat $\Lambda$CDM universe with the total matter density $\Omega_m = \Omega_b + \Omega_{dm} = 0.25$, where $\Omega _b = 0.045$ indicates baryons and $\Omega_{dm} = 0.205$ represents dark matter, a cosmological constant $\Omega_{\Lambda} = 1 - \Omega_m = 0.75$, the Hubble parameter $h = 0.73$ and the density variance in spheres of radius $8 \ \mbox{Mpc}/h$ $\sigma_8 = 0.9$. All the density parameters are in units of the critical density.
 \section{Methodology}
+\label{sec:method}
 To measure the correlation between the shapes of galaxy clusters and the density field we proceed as in \citet{vanUitertJoachimi2017}, namely we define an estimator as a function of the comoving transverse distance $R_p$ and the line-of-sight distance $\Pi$:
 \begin{equation}
     \hat{\xi}_{g+}(R_p, \Pi) = \frac{S_+ D_d}{D_s D_d}-\frac{S_+ R}{D_s R},
@@ -179,10 +175,10 @@ with $w_{\delta \delta}^{model} (R_p)$ a function in which we include the depend
 
 To get rid of the cluster bias $b_g (M)$ factor and focus on the mass dependence of the amplitude $A_{IA} (M)$, we define:
 \begin{equation}
-    r_{g+} (R_p, M)=\frac{w_{g+} (R_p)}{\sqrt{w_{gg} (R_p)}} =\frac{A_{IA} (M) w_{\delta +}^{model} (R_p) }{\sqrt{w_{\delta \delta}^{model} (R_p)}}
+    r_{g+} (R_p, M)=\frac{w_{g+} (R_p, M)}{\sqrt{w_{gg} (R_p, M)}} =\frac{A_{IA} (M) w_{\delta +}^{model} (R_p) }{\sqrt{w_{\delta \delta}^{model} (R_p)}}
 	\label{eq:rg+}
 \end{equation}
-where we assume that the clustering signal $w_{gg}(R_p)$ is positive, which is indeed true if we evaluate it at a reasonably small $R_p = R_p^*$ - see Sect. for further discussion. If we evaluate the whole expression in Eq.~\ref{eq:rg+} at this same value $R_p^*$, which we adopt to be the the midpoint of a logarithmic bin which covers $6 \ \mbox{Mpc}/h < R_p < 30 \ \mbox{Mpc}/h$, we obtain the quantity:
+where we assume that the clustering signal $w_{gg}(R_p, M)$ is positive, which is indeed true if we evaluate it at a reasonably small $R_p = R_p^*$ - see Sect.\ref{sec:resanddiscuss} and Fig.~\ref{fig:wgpwggrp} for further discussion. If we evaluate the whole expression in Eq.~\ref{eq:rg+} at this same value $R_p^*$, which we adopt to be the the midpoint of a logarithmic bin which covers $6 \ \mbox{Mpc}/h < R_p < 30 \ \mbox{Mpc}/h$, we obtain the quantity:
 \begin{equation}
     r_{g+} (M) = r_{g+} (R_p = R_p^*, M) \propto A_{IA} (M)
 	\label{eq:rg+m}
@@ -192,18 +188,16 @@ where we stress that this quantity now only depends on the mass of the halo M. T
 A_{IA} (M)\propto M^{\beta}, 
 	\label{eq:aia}
 \end{equation}
-we can adopt the following model for $r_{g+} (M)$:
+we adopt the following model for $r_{g+} (M)$:
 \begin{equation}
-    r_{g+} (M) = A \cdot  M^{\beta}
+    r_{g+} (M) = A \cdot  \biggl ( \frac{M}{M_r} \biggl )^{\beta}
 	\label{eq:modelrg+}
 \end{equation}
-with $A$ a generic amplitude with no physical meaning, and $\beta$ as in Eq.~\ref{eq:aia}.
+with $A$ a generic amplitude with no physical meaning, $M_r = 10^{13.5} M_{\sun}/h_{70}$ a pivot mass and $\beta$ as in Eq.~\ref{eq:aia}.
 
-To achieve this goal, we select the objects of the catalogues described in Sect.~\ref{sec:data} in $n = 5$ logarithmic mass bins, between $10^{11} M_{\sun}$ and $10^{14} M_{\sun}$ for the MS and between $10^{12.5} M_{\sun}$ and $10^{15} M_{\sun}$ for the MXXL, we split them in $N = 3^3 = 27$ sub-boxes based on their positions inside the cube of the respective simulation, and calculate $w_{g+}$ and $w_{gg}$ for each of the N sub-samples by replacing the integrals in Eq.~\ref{eq:wgphat} and \ref{eq:wgghat} with a sum over 20 line-of-sight bins, each $(\Pi_{max} - \Pi_{min})/ 20 \ \mbox{Mpc}/h$ wide.  The points showed in Fig.~ are the arithmetical mean of the $N$ values for each mass bin, while the error bars are represented by the standard deviation of the values.
+To achieve this goal, we select the objects of the catalogues described in Sect.~\ref{sec:data} in $n = 5$ logarithmic mass bins, between $10^{11} M_{\sun}$ and $10^{14} M_{\sun}$ for the MS and between $10^{12.5} M_{\sun}$ and $10^{15} M_{\sun}$ for the MXXLS, we split them in $N = 3^3 = 27$ sub-boxes based on their positions inside the cube of the respective simulation, and calculate $w_{g+}$ and $w_{gg}$ for each of the N sub-samples by replacing the integrals in Eq.~\ref{eq:wgphat} and \ref{eq:wgghat} with a sum over 20 line-of-sight bins, each $(\Pi_{max} - \Pi_{min})/ 20 \ \mbox{Mpc}/h$ wide.
 
-***ARE WE SURE THAT THE DEFINITION OF THE VIRIAL MASS IS THE SAME IN BOTH THE SIMULATIONS? CAN'T FIND ANY REFERENCE FOR THE MILLENNIUM, BUT FOR THE MXXL THEY SAY CONVENTIONAL, SO IT SHOULD BE OK***
-
-We then perform a posterior analysis over the data to retrieve the values of $A$ and $\beta$: according to Bayes' theorem, if $\boldsymbol{d}$ is the vector of the data and $\boldsymbol{p}$ the vector of the parameters, 
+We then perform a posterior analysis over the data to retrieve the distributions of $A$ and $\beta$: according to Bayes' theorem, if $\boldsymbol{d}$ is the vector of the data and $\boldsymbol{p}$ the vector of the parameters, 
 \begin{equation}
     P(\boldsymbol{p} | \boldsymbol{d}) \propto P(\boldsymbol{d} | \boldsymbol{p}) \ P(\boldsymbol{p}) \propto e^{-\frac{1}{2} \chi ^2} P(\boldsymbol{p})
 	\label{eq:bayes}
@@ -213,9 +207,9 @@ with  $P(\boldsymbol{p} | \boldsymbol{d})$ the posterior probability,  $P(\bolds
      \mathbf{C}_{\mu \nu} = \frac{1}{N-1} \sum_{i = 1}^{N} (x_{i, \mu} - \overline{x}_{\mu})(x_{i, \nu} - \overline{x}_{\nu})
 	\label{eq:covariance}
 \end{equation}
-with $\mu, \nu \in \{1, \dotso, n\},  \overline{x}_{\mu} = \frac{1}{N} \sum_{i=1}^{N} x_{i, \mu},$ and $x_{i, \mu}= r_{g+}(M)$ for each sub-box and each mass bin, as defined in Eq.~\ref{eq:rg+}. We then invert the covariance matrix and correct the bias on the inverse to obtain an unbiased estimate of the precision matrix, given by:
+with $\mu, \nu \in \{1, \dotso, n\},  \overline{x}_{\mu} = \frac{1}{N} \sum_{i=1}^{N} x_{i, \mu},$ and $x_{i, \mu}= r_{g+}(M)$ for each sub-box and each mass bin, as defined in Eq.~\ref{eq:rg+m}. We then invert the covariance matrix and correct the bias on the inverse to obtain an unbiased estimate of the precision matrix, given by:
 \begin{equation}
-     \mathbf{C}^{-1}_{\mbox{unbiased}} = \frac{N - n -2}{N-1}  \mathbf{C}^{-1}
+     \mathbf{C}^{-1}_{\mbox{unbiased}} = \frac{N - n -2}{N-1} \  \mathbf{C}^{-1}
 	\label{eq:precunbiased}
 \end{equation}
 where we assume $N > n+2$. The results of the analysis are presented in Sect.~\ref{sec:resanddiscuss}.
@@ -223,10 +217,89 @@ where we assume $N > n+2$. The results of the analysis are presented in Sect.~\r
 The choice of $n$ and $N$ is constrained by many factors: first of all, if N is too large the single values of $w_{gg}$ (and $w_{g+}$) tend to fluctuate around the mean, thus increasing the error bar and sometimes plunging below 0, which is unacceptable for our choice of $ r_{g+} (R_p, M)$, as specified after Eq.~\ref{eq:rg+}. Furthermore, we want $n$ to be large enough to be capable of displaying the trend of the signals along the whole mass range chosen. Finally, we need to take $n \ll N$ to avoid divergences related to the fact that we estimate the covariance from a finite number of samples \citep{Tayloretal2013}.
 
 \section{Results and discussion}
-We first show the trend of $w_{g+}$ and $w_{gg}$ with $R_p$ for the lowest, middle and largest mass bin, for both the catalogues; note that around $R_p = R_p^*$ $w_{gg}$ is always positive witihin the error bar, so that Eq.~\ref{eq:rg+} always returns a real value.
-
-
 \label{sec:resanddiscuss}
+The trend of $w_{g+}$ and $w_{gg}$ with $R_p$ for the lowest, middle and highest mass bin for both the catalogues is shown in Fig.~\ref{fig:wgpwggrp}; note that around $R_p = R_p^*$ $w_{gg}$ is always positive within the error bar, therefore Eq.~\ref{eq:rg+m} always returns a real value.  The points showed in Fig.~\ref{fig:wgpwggrp} are the arithmetical mean of the $N$ values for each mass bin, while the error bars are represented by the standard deviation of the values.
+The overall behaviour of $w_{g+}$ and $w_{gg}$ agrees with previous works \citep{Joachimietal2011, vanUitertJoachimi2017} and the upper plot in each panel suggests the detection of a positive alignment, meaning that clusters point towards nearby clusters.
+\begin{figure}
+	\centerline{
+	\subfloat[$w_{g+}$ and $w_{gg}$ for the Millennium simulation.]
+	{\includegraphics[scale = 0.7]{img/trend_millennium.eps}
+	\label{wgpwggrp1}}}
+	\centerline{
+	\subfloat[$w_{g+}$ and $w_{gg}$ for the Millennium XXL simulation.]	
+	{\includegraphics[scale = 0.7]{img/trend_mxxl.eps}
+	\label{wgpwggrp2}}}
+	\caption{Trend of the intrinsic alignment signal $w_{g+}$ and the cluster signal $w_{gg}$ with the comoving transverse distance $R_p$ for \protect\subref{wgpwggrp1} the Millennium and \protect\subref{wgpwggrp2} the Millennium XXL simulation. Note that at $R_p = R_p^* = 13.42 \ \mbox{Mpc}/h$ the $w_{gg}$ signal is positive within the error bar. Red, blue and black dots represent respectively the lowest, middle and highest mass bin of each catalogue.}
+	\label{fig:wgpwggrp}
+\end{figure}
+
+We then study the dependence of $w_{g+}, w_{gg}$ and $r_{g+}$ on the mass of the haloes, which we define to be the mass within a sphere centred on the potential minimum which has mean density 200 times the mean value at $z = 0$ ($M_{200m}$): in this way, we are able to compare our results with those in \citet[figure 7]{vanUitertJoachimi2017}.
+
+***ARE WE SURE THAT THE DEFINITION OF THE VIRIAL MASS IS THE SAME IN BOTH THE SIMULATIONS? CAN'T FIND ANY REFERENCE FOR THE MILLENNIUM, BUT FOR THE MXXLS THEY SAY CONVENTIONAL, SO IT SHOULD BE OK***
+
+In Fig.~\ref{fig:vsmass} we also include, for the Millennium simulation only, two more results: purple dots represent the signal from the objects at redshift $z = 0.46$, while light blue dots represent the signal from the objects at $z = 0$ but using the reduced inertia tensor (\textit{rit}) instead of the simple one to measure the shapes of the haloes.
+
+*** NOTE THAT THE CONVERSION OF MASS ALSO DEPENDS ON REDSHIFT, SO A DIFFERENT TABLE IS USED FOR PURPLE DOTS ***
+\begin{figure}
+	\centerline{
+	\includegraphics[scale = 0.8]{img/compare.eps}}
+	\caption{Trend of the intrinsic alignment signal $w_{g+}$, the cluster signal $w_{gg}$ and $r_{g+}$ as defined in Eq.~\ref{eq:rg+m} with the halo mass $M_{200m}$ for the Millennium and the Millennium XXL simulations. The label ``sit'' stands for ``simple inertia tensor, while ``rit'' means ``reduced inertia tensor''; note that for the MXXLS data only the mass tensor is available, as explained in Sect.~\ref{sec:data}. As an aside, the purple dots cover a different mass range, namely $10^{11} M_{\sun}$ and $10^{13.5} M_{\sun}$, due to high noise at the high-mass end. The points are not placed at the midpoint of the bin, but at the value corresponding to the arithmetic mean of the mass of the objects.}
+	\label{fig:vsmass}
+\end{figure}
+As one can see, despite the use of different quantities to measure the shapes of the objects, as explained in Sect.~\ref{sec:data}, the MS and the MXXLS yield consistent results in the mass range where they overlap; furthermore, all three $w_{g+}, w_{gg}$ and $r_{g+}$ increase with increasing mass. As a side note, we mention that using the \textit{rit} leads to lower alignment signals, as found in ***ADD PREVIOUS WORKS***
+
+*** MAYBE AT SOME POINT WE SHOULD DISCUSS THE IC CORRECTION? ***
+
+We proceed by showing the results of the posterior analysis described in Sect.~\ref{sec:method}: Fig.~\ref{fig:postsim}\protect\subref{fig:postsim1} and Fig.~\ref{fig:postsim}\protect\subref{fig:postsim2} display the outcomes of the separated analysis on the two simulations, while Fig.~\ref{fig:postsim}\protect\subref{fig:postsim3} shows the results from the joint analysis of the two catalogues, obtained by multiplying the likelihood functions and assuming the same flat priors on the parameters. The most stringent bounds come from the MXXL simulation, while the Millennium yields larger errors on the parameters, even though consistent with the results of the MXXLS; moreover, the joint analysis leads to a slope quite close to $\beta = 1/3$. We present all the results in Table~\ref{tab:param}.
+\begin{figure*}
+	\centerline{
+	\subfloat[Posterior analysis for the Millennium simulation.]
+	{\includegraphics[scale = 0.7]{img/inference_millennium.eps}
+	\label{fig:postsim1}}
+	\subfloat[Posterior analysis for the Millennium XXL simulation.]	
+	{\includegraphics[scale = 0.7]{img/inference_mxxl.eps}
+	\label{fig:postsim2}} }
+	\centerline{	
+	\subfloat[Joint analysis for both the simulations.]
+	{\includegraphics[scale = 0.85]{img/inference_joint.eps}
+	\label{fig:postsim3}} }
+	\caption{Posterior analysis for \protect\subref{fig:postsim1} the Millennium simulation, \protect\subref{fig:postsim2} the MXXL simulation and \protect\subref{fig:postsim3} joint MS and MXXLS. While the first one returns larger error bars, the results are compatible for the two catalogues; the exact values and errors of $A$ and $\beta$ are presented in Table~\ref{tab:param}.}
+	\label{fig:postsim}
+\end{figure*}
+
+\subsection{Comparison with the real data of redMaPPer clusters}
+We perform a posterior analysis also on the real data from \citet{vanUitertJoachimi2017}: in that work, the clusters contained in the redMaPPer catalogue \citep{Rykoffetal2014} were used to calculate the intrinsic alignment signal amplitude $A_{IA}$, which was then studied as a function of the halo mass. In \citet[figure 7]{vanUitertJoachimi2017} the results of this analysis are shown together with results from previous works \citep*{Joachimietal2011, Singhetal2015}: we consider all the 21 points in the plot, neglect the error bars on the mass
+%(whose impact is widely studied in \citet{vanUitertJoachimi2017})
+and treat all the the data as independent, so that the covariance matrix is diagonal. In this case, the parameter $A$ is dimensionless, thus making it impossible to directly compare its value to the one that is suggested by the simulation data; moreover, we assume different flat priors in the fit for the parameters, namely $\log_{10} A \in [0.4;0.9]$  and $\beta \in [0.4;0.7]$. The outcomes of our analysis are shown in Fig.~\ref{fig:postreal} and in Table~\ref{tab:param}.
+\begin{figure}
+	\centerline{
+	\includegraphics[scale = 0.8]{img/inference_real.eps}}
+	\caption{Posterior analysis on the real data; the exact values and errors of $A$ and $\beta$ are presented in Table~\ref{tab:param}.}
+	\label{fig:postreal}
+\end{figure}
+
+\begin{table}
+	\centering
+	\caption{Results of the posterior analysis over the Millennium simulation, the Millennium XXL simulation, their joint contribution and real data. Note the different units of measurement for $A$ in the simulated and real data.}
+	\label{tab:param}
+	\begin{tabular}{c||ccc} % four columns, alignment for each
+		\hline
+		\ & MS only & MXXLS only & Joint  \\
+		\hline
+		$\beta$					 & $0.20^{+0.11}_{-0.13}$   & $0.35^{+0.03}_{-0.03}$  & $0.33^{+0.03}_{-0.03}$ \\
+		$log_{10} (A \ [\mbox{Mpc}/h]^{1/2})$ & $-1.14^{+0.15}_{-0.20}$ & $-1.11^{+0.03}_{-0.03}$ & $-1.10^{+0.03}_{-0.03}$ \\
+		\hline
+		\ & Real data & \ & \ \\
+		\hline
+		$\beta$ & $0.56^{+0.05}_{-0.05}$ & &\\
+		$log_{10} A $ & $0.61^{+0.03}_{-0.04}$ & & \\
+		\hline
+	\end{tabular}
+\end{table}
+
+We note that while the disagreement between the values of A can be easily justified, since we are using different definitions of the amplitude of the intrinsic alignment signal, the incompatibility between the values of the slope $\beta$ could be explained by a number of more profound factors.
+
+***SHALL WE INCLUDE REASONS FOR THE DISCREPANCY?***
 
 \section{Conclusions}
 
@@ -235,7 +308,7 @@ the final conclusions which the authors draw from their work.
 
 \section*{Acknowledgements}
 
-BJ acknowledges support by an STFC Ernest Rutherford Fellowship, grant reference ST/J004421/1.
+We thank Mario Bonamigo for providing us with the Millennium XXL catalogue snapshots and Edo van Uitert for making the real data points available to us and for useful discussion about the correct mass units of measurement to use. BJ acknowledges support by an STFC Ernest Rutherford Fellowship, grant reference ST/J004421/1.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -250,8 +323,36 @@ BJ acknowledges support by an STFC Ernest Rutherford Fellowship, grant reference
 % Alternatively you could enter them by hand, like this:
 % This method is tedious and prone to error if you have lots of references
 \begin{thebibliography}{99}
+\bibitem[\protect\citeauthoryear{Angulo et al.}{2012}]{Anguloetal2012}
+Angulo R.~E., Springel V., White S.~D.~M., et al., 2012, \href{https://academic.oup.com/mnras/article-lookup/doi/10.1111/j.1365-2966.2012.21830.x}{MNRAS}, \href{http://adsabs.harvard.edu/abs/2012MNRAS.426.2046A}{426}, \href{http://adsabs.harvard.edu/abs/2012MNRAS.426.2046A}{2046}
+\bibitem[\protect\citeauthoryear{Bartelmann \& Schneider}{2001}]{BartelmannSchneider2001}
+Bartelmann M., Schneider P., 2001, \href{http://www.sciencedirect.com/science/article/pii/S037015730000082X}{Phys. Reports}, \href{http://adsabs.harvard.edu/abs/2001PhR...340..291B}{340}, \href{http://adsabs.harvard.edu/abs/2001PhR...340..291B}{291}
+\bibitem[\protect\citeauthoryear{Bett et al.}{2007}]{Bettetal2007}
+Bett P., Eke V., Frenk C.~.S., et al., 2007, \href{https://academic.oup.com/mnras/article-lookup/doi/10.1111/j.1365-2966.2007.11432.x}{MNRAS}, \href{http://adsabs.harvard.edu/abs/2007MNRAS.376..215B}{376}, \href{http://adsabs.harvard.edu/abs/2007MNRAS.376..215B}{215}
+\bibitem[\protect\citeauthoryear{Bonamigo et al.}{2015}]{Bonamigoetal2015}
+Bonamigo M., Despali G., Limousin M., et al., 2015, \href{https://academic.oup.com/mnras/article-lookup/doi/10.1093/mnras/stv417}{MNRAS}, \href{http://adsabs.harvard.edu/abs/2015MNRAS.449.3171B}{449}, \href{http://adsabs.harvard.edu/abs/2015MNRAS.449.3171B}{3171}
+\bibitem[\protect\citeauthoryear{Chisari et al.}{2015}]{Chisarietal2015}
+Chisari N., Codis S., Laigle C., et al., 2015, \href{https://academic.oup.com/mnras/article/454/3/2736/1203115/Intrinsic-alignments-of-galaxies-in-the-Horizon?}{MNRAS}, \href{http://adsabs.harvard.edu/abs/2015MNRAS.454.2736C}{454}, \href{http://adsabs.harvard.edu/abs/2013MNRAS.431..477J}{2736}
+\bibitem[\protect\citeauthoryear{Despali et al.}{2013}]{Despalietal2013}
+Despali G., Tormen G., Sheth R.~K., 2013, \href{https://academic.oup.com/mnras/article-lookup/doi/10.1093/mnras/stt235}{MNRAS}, \href{http://adsabs.harvard.edu/abs/2013MNRAS.431.1143D}{431}, \href{http://adsabs.harvard.edu/abs/2013MNRAS.431.1143D}{1143}
+\bibitem[\protect\citeauthoryear{Joachimi et al.}{2011}]{Joachimietal2011}
+Joachimi B., Mandelbaum R., Abdalla F.~B., Bridle S.~L., 2011, \href{http://www.aanda.org/articles/aa/abs/2011/03/aa15621-10/aa15621-10.html}{A\&A}, \href{http://adsabs.harvard.edu/abs/2011A\%26A...527A..26J}{527}, \href{http://adsabs.harvard.edu/abs/2011A\%26A...527A..26J}{A26}
+\bibitem[\protect\citeauthoryear{Joachimi et al.}{2013a}]{Joachimietal2013a}
+Joachimi B., Semboloni E., Bett P.~E., et al., 2013a, \href{https://academic.oup.com/mnras/article-lookup/doi/10.1093/mnras/stt172}{MNRAS}, \href{http://adsabs.harvard.edu/abs/2013MNRAS.431..477J}{431}, \href{http://adsabs.harvard.edu/abs/2013MNRAS.431..477J}{437}
+\bibitem[\protect\citeauthoryear{Joachimi et al.}{2013b}]{Joachimietal2013b}
+Joachimi B., Semboloni E., Hilbert S., et al., 2013b, \href{https://academic.oup.com/mnras/article/436/1/819/977045/Intrinsic-galaxy-shapes-and-alignments-II}{MNRAS}, \href{http://adsabs.harvard.edu/abs/2013MNRAS.436..819J}{436}, \href{http://adsabs.harvard.edu/abs/2013MNRAS.436..819J}{819}
+\bibitem[\protect\citeauthoryear{Joachimi et al.}{2015}]{Joachimietal2015}
+Joachimi B., Cacciato M., Kitching T.~D., et al., 2015, \href{https://link.springer.com/article/10.1007/s11214-015-0177-4}{Space Sci. Rev.}, \href{http://adsabs.harvard.edu/abs/2015SSRv..193....1J}{193}, \href{http://adsabs.harvard.edu/abs/2015SSRv..193....1J}{1}
 \bibitem[\protect\citeauthoryear{Landy \& Szalay}{1993}]{LandySzalay1993}
 Landy S.~D., Szalay A.~S., 1993, \href{http://adsabs.harvard.edu/doi/10.1086/172900}{ApJ}, \href{http://adsabs.harvard.edu/doi/10.1086/172900}{412}, \href{http://adsabs.harvard.edu/doi/10.1086/172900}{64}
+\bibitem[\protect\citeauthoryear{Pereira et al.}{2008}]{Pereiraetal2008}
+Pereira M.~J., Bryan G.~L., Gill S.~P.~D., 2008, \href{http://iopscience.iop.org/article/10.1086/523830/meta}{ApJ}, \href{http://iopscience.iop.org/article/10.1086/523830/meta}{672}, \href{http://iopscience.iop.org/article/10.1086/523830/meta}{825}
+\bibitem[\protect\citeauthoryear{Rykoff et al.}{2014}]{Rykoffetal2014}
+Rykoff E.~S., Rozo E., Busha M.~T., et al., 2014, \href{http://iopscience.iop.org/article/10.1088/0004-637X/785/2/104/meta}{ApJ}, \href{http://adsabs.harvard.edu/abs/2014ApJ...785..104R}{785}, \href{http://adsabs.harvard.edu/abs/2014ApJ...785..104R}{104}
+\bibitem[\protect\citeauthoryear{Singh, Mandelbaum \& More}{2015}]{Singhetal2015}
+Singh S., Mandelbaum R., More S., 2015, \href{https://academic.oup.com/mnras/article-abstract/450/2/2195/985962/Intrinsic-alignments-of-SDSS-III-BOSS-LOWZ-sample?redirectedFrom=fulltext}{MNRAS}, \href{http://adsabs.harvard.edu/abs/2015MNRAS.450.2195S}{450}, \href{http://adsabs.harvard.edu/abs/2015MNRAS.450.2195S}{2195}
+\bibitem[\protect\citeauthoryear{Springel et al.}{2005}]{Springeletal2005}
+Springel V., White S.~D.~M., Jenkins A., et al., 2005, \href{http://www.nature.com/nature/journal/v435/n7042/full/nature03597.html}{Nature}, \href{http://adsabs.harvard.edu/abs/2005Natur.435..629S}{435}, \href{http://adsabs.harvard.edu/abs/2005Natur.435..629S}{629}
 \bibitem[\protect\citeauthoryear{Taylor et al.}{2013}]{Tayloretal2013}
 Taylor A., Joachimi B., Kitching T., 2013,  \href{https://academic.oup.com/mnras/article-lookup/doi/10.1093/mnras/stt270}{MNRAS}, \href{http://adsabs.harvard.edu/abs/2013MNRAS.432.1928}{432}, \href{http://adsabs.harvard.edu/abs/2013MNRAS.432.1928}{1928}
 \bibitem[\protect\citeauthoryear{van Uitert \& Joachimi}{2017}]{vanUitertJoachimi2017}
@@ -263,12 +364,11 @@ van Uitert E., Joachimi B., 2017, preprint (\href{https://arxiv.org/abs/1701.023
 
 %%%%%%%%%%%%%%%%% APPENDICES %%%%%%%%%%%%%%%%%%%%%
 
-\appendix
+%\appendix
 
-\section{Some extra material}
+%\section{Some extra material}
 
-If you want to present additional material which would interrupt the flow of the main paper,
-it can be placed in an Appendix which appears after the list of references.
+%If you want to present additional material which would interrupt the flow of the main paper, it can be placed in an Appendix which appears after the list of references.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
