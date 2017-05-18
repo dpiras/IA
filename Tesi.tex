@@ -1,0 +1,409 @@
+\documentclass[a4paper,11pt]{article}
+
+\usepackage[utf8x]{inputenc}
+\usepackage[sans]{frontespizio}
+\usepackage[italian, english] {babel}
+\usepackage{graphicx}
+\usepackage{floatflt}\usepackage{lmodern}
+\usepackage{float}
+\usepackage{textcomp}
+\usepackage{amsmath,amsfonts,amssymb}
+
+\usepackage{color}
+\newcommand{\rc}{\textcolor{red}}
+\newcommand{\tc}{\textcolor{blue}}
+
+\newcommand*\dif{\mathop{}\!\mathrm{d}} 	% to have a proper differential symbol in integrals
+\def\arraystretch{1.2}	% to control the spacing of columns
+
+\usepackage{subfig}
+\usepackage{epstopdf}
+
+\begin{document}
+\selectlanguage{english}
+
+\begin{frontespizio}
+\Universita{Studi di Padova}
+\Dipartimento{Fisica e Astronomia}
+\Corso[Laurea Magistrale]{Fisica}
+\Logo{unipd}
+\Annoaccademico{2016--2017}
+\Titoletto{Tesi di laurea magistrale}
+\Titolo{The mass dependence of dark matter halo alignments \\ with large-scale structure}
+\Sottotitolo{}
+\Candidato[1114287]{Davide Piras}
+\Relatore{Prof.~Sabino Matarrese}
+\NCorrelatore{Supervisor}{Supervisors}
+\Correlatore{Dr Benjamin Joachimi \\ Dept. of Physics and Astronomy \\ UCL, United Kingdom
+\\[\frontrelcorrelsep]
+\frontfixednamesfont Controrelatore\csname front@punct\endcsname\\
+Prof.ssa Giulia Rodighiero}
+\end{frontespizio}
+
+\begin{flushright}
+\emph{To be filled \newline
+}
+\end{flushright}
+
+\tableofcontents
+
+\section{Introduction}
+\label{sec:intro}
+In an isotropic Universe, one would expect galaxy images not to have any preferred orientations; however, we observe that galaxy shapes are locally correlated with the surrounding large-scale structure, and therefore with each other. Several mechanisms have been proposed to explain this, such as the accretion of new material along favoured directions, and the effect of gravitational tidal fields from the surrounding dark matter haloes. In this latter picture, in particular, the aspect of luminous matter structures is shaped through tidal interactions by the hosting dark matter halo, and one can safely assume that bright and dark matter share the same shape \cite{Kiesslingetal2015}.
+
+This phenomenon is known as intrinsic alignment (henceforth IA; see \cite{TroxelIshak2015, Joachimietal2015, Kiesslingetal2015, Kirketal2015} for recent reviews): besides carrying information about galaxy formation, intrinsic alignment can impact the cosmological weak lensing effect, namely the change in the path of light, and thus in the observed distribution of galaxies, due to the presence of massive objects along the line of sight. IA must therefore be taken into consideration in deep lensing surveys, such as LSST \cite{LSST2009} and Euclid \cite{Euclid2011}. 
+
+\cite{Heavensetal2000} and \cite{CroftMetzler2000} first showed the non-negligible contamination of the weak lensing signal due to correlations in the intrinsic shapes of galaxies, and a number of works afterwards (e.g.\ \cite{Heymansetal2006, Sembolonietal2008}) confirmed that this effect must be accounted for in order not to bias the results of the observations.
+
+Measurements of the intrinsic alignment signal have been performed using data from N-body simulations \cite{Heymansetal2006, Kuhlenetal2007, Leeetal2008, Schneideretal2012, Joachimietal2013a, Joachimietal2013b}, from hydrodynamical simulations \cite{Codisetal2015, Velliscigetal2015b, Chisarietal2015, Tennetietal2016, Hilbertetal2017}, and considering observation data as well \cite{Joachimietal2011, Haoetal2011, Lietal2013, Singhetal2015, vanUitertJoachimi2017}: these two latter groups of data, in particular, claimed that massive red galaxies point towards matter overdensities, while blue galaxies do not show any clear hint of alignment \cite{Hirataetal2007, Mandelbaumetal2011}. 
+
+The dependence of the IA signal with mass has also been studied. As far as observations are concerned, the alignment signal is claimed to increase with increasing mass: \cite{Haoetal2011}, for example, studied a large sample of galaxy clusters from the SDSS DR7 finding a dependence of the alignment with the mass of the brightest cluster galaxy, while an increasing trend of the IA amplitude with luminosity, or the corresponding mass, has been identified for galaxies \cite{Joachimietal2011, Singhetal2015} and for clusters \cite{vanUitertJoachimi2017}. 
+
+Simulations partially agree with this picture: using a $512^3$-particle N-body simulation, \cite{Jing2002}, for example, found that the alignment increases with mass over three orders of magnitude, up to about $10^{13} M_{\odot}$. Moreover, \cite{Leeetal2008} used data from the Millennium simulation, and claimed stronger correlations with higher mass over two mass bins around $10^{12} M_{\odot}$, while \cite{Joachimietal2013b}, using the same set of data, found an increasing trend over the same mass range only for early-type galaxies, while no dependence on luminosity or particular trend with mass or luminosity for late-type galaxies has been identified. 
+
+These results motivate us to search for a universal relation between the alignment strength and the mass of dark matter haloes: first of all, this could lend support to an IA mechanism that successfully explains the trends; moreover, we need to reduce the degrees of freedom in modelling the IA signal, to obtain tighter cosmology constraints from lensing observations. To achieve this, in this work we delve into the dependence of the amplitude of the intrinsic alignment signal on the mass of the halo, which is postulated to drive all the observable properties of the hosted galaxies (e.g.\ \cite{Joachimietal2015}): we first derive the expected scaling from the theory, and then test our predictions using data from two N-body simulations, mimicking the observational approach in order to be able to compare our results with real data.
+
+We give details about our theoretical model and derive the expected scaling of the IA with halo mass in the tidal alignment paradigm in Sect.~\ref{sec:theory}; we then present the simulations we work with (Sect.~\ref{subsec:sim}), and how we define the shapes of the dark matter haloes they contain (Sect.~\ref{subsec:haloshapes}). In Sect.~\ref{subsec:measurements} we explain how we measure the correlation between halo shapes, and then (Sect.~\ref{subsec:modelling}) we describe the Bayesian analysis we perform to establish the slope of the power-law model we assume to describe the IA amplitude signal. We finally show our results and compare them with our theoretical predictions (Sect.~\ref{subsec:simdatard}) and real data (Sect.~\ref{subsec:obsdatard}) 
+
+\section{Theoretical background}
+\label{sec:theory}
+The physical picture of tidal interaction of a self-gravitating system that is in virial equilibrium with a velocity dispersion $\sigma$, such as an elliptical galaxy or a cluster of galaxies, would be a distortion of the system's gravitational potential through tidal gravitational forces. The particles of the system would remain in virial equilibrium and fill up the distorted potential along an isocontour of the gravitational potential, which would result in a change in the shape of the system. This shape should reflect the magnitude and the orientation of the tidal gravitational fields, and the magnitude of the change in shape should depend on how tightly the system is bound.
+
+In isolated virialised systems the Jeans-equation would apply,
+\begin{equation}
+\frac{1}{\rho}\frac{\partial}{\partial r}\rho(\sigma^2) + \frac{2}{r}\beta_{\mathrm{anis}}\sigma^2 = 
+-\frac{\partial\Phi}{\partial r},
+\end{equation}
+with the particle density $\rho$, distance $r$, gravitational potential $\Phi$ and the anisotropy parameter $\beta_{\mathrm{anis}}$, which we set to $\beta_{\mathrm{anis}}=0$ because we aim to derive only the scaling behaviour of the alignment amplitude. In this case, the Jeans-equation can be solved to yield $\rho\propto\exp(-\Phi/\sigma^2)$.
+
+Gravitational tidal fields generated by the ambient large-scale structure would distort the gravitational potential, and we will work in the limit that the distortion is well-described by a second-order Taylor-expansion relative to the potential minimum,
+\begin{equation}
+\Phi\rightarrow\Phi+\frac{1}{2}\frac{\partial^2\Phi}{\partial r_i\partial r_j}r_ir_j
+\end{equation}
+with the distance $r_i$ from the minimum. Consequently, the density of particles would change according to
+\begin{equation}
+\rho\propto\exp\left(-\frac{\Phi}{\sigma^2}\right) \rightarrow 
+\exp\left(-\frac{\Phi}{\sigma^2}\right)\left(1+\frac{1}{2\sigma^2}\frac{\partial^2\Phi}{\partial r_i\partial r_j}r_ir_j\right),
+\end{equation}
+and a measurement of the ellipticity through the second moments of $\rho$ would yield a proportionality to $R^2\partial^2\Phi/\sigma^2$, with $R$ the size of the object. The expansion is only valid in the limit of weak tidal fields, which is characterised by $R^2\partial^2\Phi/\sigma^2\ll 1$.
+
+Now, the virial relationship $\sigma^2 = GM/R$ sets the velocity dispersion $\sigma^2$ into relation with the gravitational potential $-GM/R$, and with the scaling $M\propto R^3$ one would expect $\sigma^2\propto M^{2/3}$, such that $R^2/\sigma^2$ should be constant. Therefore, any scaling of the ellipticity with mass is entirely due to the dependence of tidal gravitational fields with the mass-scale.
+
+The variance of tidal shear fields can be inferred from the variance of the matter density by the Poisson equation, $\Delta\Phi = 3\Omega_\mathrm{m}/(2\chi_H^2)\delta$, with the matter density $\Omega_m$ and the Hubble-distance $\chi_H=c/H_0$. Computing the tidal shear fields $\partial^2\Phi$ shows that they must have the same fluctuation statistics as the density field $\delta$. In Fourier-space, the solution to the Poisson equation is $\Phi \propto \delta/k^2$ with the wave vector $k$, and the tidal shear fields would become $k_ik_j\Phi \propto k_ik_j/k^2\:\delta$. Therefore, the spectrum $P_{\partial^2\Phi}(k)$ of the tidal shear fields is proportional to the spectrum $P_\delta(k)$ of the density fluctuations.
+
+Consequently, one can derive the variance of tidal shear fields from the variance of the density fluctuations, i.e.\ from the CDM-spectrum $P_\delta(k)$. For doing that, one can relate a mass scale $M$ to the wave vector $k$ by requiring that the mass $M$ should be contained in a sphere of radius $R$, $M=4\pi\Omega_\mathrm{m}\rho_\mathrm{crit}R^3/3$, which in turn defines a scale $k$ in the spectrum which is proportional to $M^{-1/3}$. This implies that on galaxy- and cluster-scales, where the CDM-spectrum scales $\propto k^{-2\ldots-3}$, one obtains for the standard deviation of the tidal shear field a behaviour $\propto M^{1/2\ldots 1/3}$. We compare these very general theoretical predictions with our results in Sect.~\ref{sec:resanddiscuss}.
+\section{Data}
+\label{sec:data}
+\subsection{Simulations}
+\label{subsec:sim}
+In this work we consider haloes from two different simulations: 
+\begin{enumerate}
+\item the \textbf{Millennium Simulation (MS)}, first presented in \cite{Springeletal2005}, which uses $2160^3$ dark matter particles of mass $m_{\mathrm{P}}^{\mathrm{MS}} =1.2 \times 10^9 M_{\odot}$ enclosed in a 500 Mpc$/h$-side box.
+%to sample dark matter haloes and study their growth. 
+In particular, we consider 2 of its 64 snapshots, i.e.\ the one at $z = 0$ (snapshot $63$), for our baseline, and the one at $z \simeq 0.46$ (snapshot $49$), to assess a potential redshift dependence of our findings. Dark matter haloes are identified as in \cite{Joachimietal2013a} and references therein: a simple ``friends-of-friends'' group-finder (FOF, \cite{Davisetal1985}) is run first to spot virialised structures, followed by the \texttt{SUBFIND} algorithm \cite{Springeletal2001, Springeletal2005} to identify sub-haloes, some of which are then treated as separate haloes if they are only briefly close to the halo. We consider haloes with a minimum number of particles $N_{\mathrm{P}} = 300$.
+\item The \textbf{Millennium-XXL Simulation (MXXL)}, which samples $6720^3$ dark matter particles of mass $m_{\mathrm{P}}^{\mathrm{MXXL}} = 8.456 \times 10^9 M_{\odot}$ confined in a cubic region of $3000$ Mpc$/h$ on a side \cite{Anguloetal2012}. In this case, we consider only one snapshot, at $z = 0$. Haloes are selected using an ellipsoidal overdensity algorithm, as described in \cite{Despalietal2013} and \cite{Bonamigoetal2015}: a traditional spherical overdensity algorithm \cite{LaceyCole1994} gives an initial hint of the true shape and orientation of the halo, which is then improved by building up an ellipsoid using the previously selected particles. % assuming a minimum number of particles $N_{\mathrm{P}} = 1000$.
+\end{enumerate} 
+%the shape of the haloes is then derived as for the MS from the eigenvectors and eigenvalues of the mass tensor 
+%\begin{equation}
+%    \mathbf{M}_{\mu \nu} = m_P \sum_{i=1}^{N_P} \frac{r_{i, \mu} r_{i, \nu}}{M_{TOT}} = \frac{1}{N_P} \sum_{i=1}^{N_P} r_{i, \mu} r_{i, \nu}
+%	\label{eq:mt}
+%\end{equation}
+%with $M_{TOT}$ the total mass of the object. Note that the mass tensor (Eq.~\ref{eq:mt}) and the inertia tensor (Eq.~\ref{eq:sit}) are different quantities \cite{Bettetal2007}, but the analysis on the two simulations yields pretty consistent results, as will be shown; also, for this catalogue no ``reduced'' tensor is taken into consideration.
+
+We define the mass of the objects in the catalogues as the mass within a halo which has mean density 200 times the critical value at the redshift corresponding to the respective snapshot $(M_{200\mathrm{c}})$. Note that for the MS we first convert the halo mass from $M_{\mathrm{Dhalo}}$, as defined in \cite{Jiangetal2014}, to $M_{200\mathrm{c}}$ using the median line in \cite[figure 2]{Jiangetal2014}; this transformation is necessary in order to have a consistent definition of the mass of the haloes in the simulations, but its impact on our results is minimal.
+
+In the simulations the same set of cosmological parameters is adopted, namely they both assume a spatially flat $\Lambda$CDM Universe with the total matter density $\Omega_{\mathrm{m}} = \Omega_{\mathrm{b}} + \Omega_{\mathrm{dm}} = 0.25$, where $\Omega _{\mathrm{b}} = 0.045$ indicates baryons and $\Omega_{\mathrm{dm}} = 0.205$ represents dark matter, a cosmological constant $\Omega_{\Lambda} = 1 - \Omega_{\mathrm{m}} = 0.75$, the Hubble parameter $h = 0.73$ and the density variance in spheres of radius $8 \ \mbox{Mpc}/h$ $\sigma_8 = 0.9$. 
+%All the density parameters are in units of the critical density.
+
+\subsection{Halo shapes}
+\label{subsec:haloshapes}
+We define the simple inertia tensor\footnote{MS and MXXL use two different tensor definitions to describe the shape, but they result in the same halo ellipticity (see also \cite{Bettetal2007} for further details).}, whose eigenvalues and eigenvectors describe the shape of the halo, as:
+\begin{equation}
+    \mathbf{M}_{\mu \nu} \propto \sum_{i=1}^{N_{\mathrm{P}}} r_{i, \mu} r_{i, \nu} \ ,
+	\label{eq:sit}
+\end{equation}
+where $N_{\mathrm{P}}$ is the total number of particles within the halo, and $\mathbf{r}_{i}$ is the vector that indicates the position of the $i-$th particle with respect to the centre of the halo, i.e.\ the location of the gravitational potential minimum. For the MS only, we also consider a reduced inertia tensor, which is defined as \cite{Pereiraetal2008}:
+\begin{equation}
+    \mathbf{M}_{\mu \nu}^{\mathrm{red}} \propto \sum _{i=1}^{N_{\mathrm{P}}} \frac{r_{i, \mu} r_{i, \nu}}{r_i^2} \ ,
+	\label{eq:rit}
+\end{equation}
+with $r_i^2$ the square of the three-dimensional distance of the i-th particle from the centre of the halo; the reduced inertia tensor is more weighted towards the centre of the halo, and may yield a more reliable approximation of the shape of the galaxy \cite{Joachimietal2013b, Chisarietal2015}. 
+
+The eigenvectors and eigenvalues define an ellipsoid, which we project onto one of the faces of the simulation box: the resulting ellipse is the projected shape of the halo. We proceed as in \cite{Joachimietal2013b} to define the ellipticity $\epsilon$ of the objects, adopting their procedure for early-type galaxies. We indicate the three unit eigenvectors as $\mathbf{s}_{\mu} = \big \{ s_{x, \mu}, s_{y, \mu}, s_{\mathbin{\|}, \mu}\big \}^\intercal$ and the absolute values of the semi-axes as $\omega_{\mu}$, $\mu \in \{1,2,3\}$, with which we define a symmetric tensor
+\begin{equation}
+    \mathbf{W}^{-1} = \sum _{\mu=1}^{3} \frac{s_{\perp, \mu} s^\intercal_{\perp, \mu}}{\omega_{\mu}^2} - \frac{\mathbf{\kappa}\mathbf{\kappa}^{\intercal}}{\alpha^2} \ ,
+	\label{eq:symtensor}
+\end{equation}
+with $s_{\perp, \mu} = \big \{ s_{x, \mu}, s_{y, \mu}\big \}^\intercal$ the eigenvector projected along the line of sight, 
+\begin{equation}
+   \mathbf{\kappa} = \sum_{\mu = 1}^{3} \frac{s_{\mathbin{\|}, \mu} \mathbf{s}_{\perp, \mu}}{\omega_{\mu}^2} \ ,
+	\label{eq:kappa}
+\end{equation}
+and 
+\begin{equation}
+    \alpha^2=\sum_{\mu = 1}^{3} \bigg( \frac{s_{\mathbin{\|}, \mu}}{\omega_{\mu}} \bigg)^2 \ .
+	\label{eq:alpha}
+\end{equation}
+We compute the two Cartesian components of the ellipticity \cite{BartelmannSchneider2001}
+\begin{align}
+    	\epsilon_{1} = \frac{W_{11} - W_{22}}{W_{11} + W_{22}+2\sqrt{\det \mathbf{W}}}\ , \\ 
+           \epsilon_{2} = \frac{2 W_{12}}{W_{11} + W_{22}+2\sqrt{\det \mathbf{W}}} \ ,
+\end{align}
+which we then translate in the tangential $(+)$ 
+%and cross $(\times)$ 
+component, following the IA sign convention\footnote{Our definition of $\epsilon_{+}$ has an opposite sign with respect to, for example, \cite{BartelmannSchneider2001}, as commonly adopted in IA works.}:
+\begin{align}
+	\epsilon_{+} = \epsilon_{1} \cos(2\varphi) + \epsilon_{2} \sin(2\varphi)\ ,% \\ 
+           %\epsilon_{\times} =  \epsilon_{2} \cos(2\varphi)-\epsilon_{1} \sin(2\varphi) \ , 
+\end{align}
+where $\varphi$ is the polar angle of the line that connects haloes pair, in the reference frame of the simulation box. We show how we use $\epsilon_{+}$ to measure the correlation between halo shapes in the next section.
+\section{Methodology}
+\label{sec:method}
+\subsection{Measurements}
+\label{subsec:measurements}
+To measure the alignment of every dark matter halo with other haloes, which we use as tracers of the density field, we mimic the standard analysis that is usually performed with observation data (e.g.\ \cite{vanUitertJoachimi2017}), i.e.\ we use biased tracers and the same statistic. Instead of fitting complicated models to the alignment signal and dividing out the galaxy/cluster bias dependence afterwards, though, we choose one large bin in the comoving transverse distance $R_{\mathrm{p}}$, and proceed as follows to dispose of the bias factor.
+
+We first define an estimator as a function of $R_{\mathrm{p}}$ and the line-of-sight distance $\Pi$:
+\begin{equation}
+    \hat{\xi}_{\mathrm{g+}}(R_{\mathrm{p}}, \Pi) = \frac{S_+ D}{D D} \ ,
+	\label{eq:xigphat}
+\end{equation}
+where $S_+ D$ represents the correlation between cluster shapes and the density sample ($\epsilon_{+}$), and $D D$ the number of cluster shape-density pairs. We then integrate along the line of sight to obtain the total projected intrinsic alignment signal:
+\begin{equation}
+   \hat{w}_{\mathrm{g+}} (R_{\mathrm{p}}) = \int _{-\Pi_{\mathrm{max}}}^{\Pi_{\mathrm{max}}} \dif \Pi \ \hat{\xi}_{\mathrm{g+}}(R_{\mathrm{p}}, \Pi) \ .
+	\label{eq:wgphat}
+\end{equation}
+Throughout this work, we adopt $\Pi_{\mathrm{max}} = 60 $ Mpc$/h$, a value large enough not to miss part of the signal, but small enough not to pick up too much noise. 
+We describe the intrinsic alignment signal by simplifying the model in \cite[equation 5]{vanUitertJoachimi2017}, namely we assume:
+\begin{equation}
+    w_{\mathrm{g+}} (R_{\mathrm{p}}, M)=A_{\mathrm{IA}} (M) \ b_{\mathrm{g}} (M)\ w_{\mathrm{\delta +}}^{\mathrm{model}} (R_{\mathrm{p}}) \ , 
+	\label{eq:wgp}
+\end{equation}
+with $A_{\mathrm{IA}} (M)$ the amplitude of the intrinsic alignment signal, $b_g (M)$ the cluster bias and $w_{\mathrm{\delta} \mathrm{+}}^{\mathrm{model}} (R_{\mathrm{p}})$ a function in which we include the dependence on $R_{\mathrm{p}}$. In the tidal alignment paradigm, $w_{\mathrm{\delta} \mathrm{+}}^{\mathrm{model}}$ is independent of the halo mass, since it is fully determined by the properties of the dark matter distribution, assuming that any mass dependence of the response of a halo shape to the tidal gravitational field is captured by $A_{\mathrm{IA}}$. 
+
+We evaluate the expression in Eq.~\ref{eq:wgp} in the interval which covers $6 \ \mbox{Mpc}/h < R_{\mathrm{p}} < 30 \ \mbox{Mpc}/h$, denoted by $R_{\mathrm{p}}^*$, to get rid of the dependence on $R_{\mathrm{p}}$; in other words, we define:
+\begin{equation}
+    w_{\mathrm{g+}} (M) \equiv w_{\mathrm{g+}} (R_{\mathrm{p}} = R_{\mathrm{p}}^*, M) \ .
+	\label{eq:wgpmass}
+\end{equation}
+We choose this particular interval for many reasons: to begin with, $6$ Mpc$/h$ is the lower endpoint usually adopted in observational papers; also, below this threshold the bias becomes non-linear \cite{Joachimietal2013b}. Finally, only noise is added to the signal above $30$ Mpc$/h$.
+
+We use the LS \cite{LandySzalay1993} estimator to calculate the clustering signal:
+\begin{equation}
+    \hat{\xi}_{\mathrm{gg}}(R_{\mathrm{p}}, \Pi) = \frac{DD -2DR + RR}{RR} \ ,
+	\label{eq:xigghat}
+\end{equation}
+where $DD$ represents the number of cluster pairs, $DR$ the number of cluster-random point pairs, and $RR$ the number of random point pairs. To measure $DR$ and $RR$, we generate random catalogues that contain objects uniformly distributed between the minimum and maximum value of the $x$, $y$ and $z$ coordinates of each sub-box\footnote{For further information about the sub-boxes, see Sect.~\ref{subsec:modelling}.}. These catalogues normally are 3 times denser; in some cases, when a sub-box encloses very few objects, we switch to random catalogues which are 10 times denser. We then integrate along the line of sight to obtain the total projected clustering signal:
+\begin{equation}
+   \hat{w}_{\mathrm{gg}} (R_{\mathrm{p}}) = \int _{-\Pi_{\mathrm{max}}}^{\Pi_{\mathrm{max}}} \dif \Pi \ \hat{\xi}_{\mathrm{gg}}(R_{\mathrm{p}}, \Pi) \ .
+	\label{eq:wgghat}
+\end{equation}
+
+We describe the clustering signal with a simple model:
+\begin{equation}
+    w_{\mathrm{gg}} (R_{\mathrm{p}}, M)=b_g^2 (M)\ w_{\mathrm{\delta} \mathrm{\delta}}^{\mathrm{model}} (R_{\mathrm{p}}) - C_{\mathrm{IC}} \ , 
+	\label{eq:wgg}
+\end{equation}
+with $w_{\mathrm{\delta} \mathrm{\delta}}^{\mathrm{model}} (R_{\mathrm{p}})$ a function in which we include the dependence on $R_{\mathrm{p}}$ \cite[equation 9]{vanUitertJoachimi2017}, and $C_{\mathrm{IC}}$ the integral constraint, which we estimate as in \cite[equation 8]{RocheEales1999} using the random pair counts. Note that, since we are dealing with dark matter clustering, $w_{\mathrm{\delta} \mathrm{\delta}}^{\mathrm{model}} (R_{\mathrm{p}})$ does not depend on the mass of the halo. Again, we evaluate the previous expression in $R_{\mathrm{p}}^*$, obtaining:
+\begin{equation}
+    w_{\mathrm{gg}} (M) \equiv w_{\mathrm{gg}} (R_{\mathrm{p}} = R_{\mathrm{p}}^*, M) \ .
+	\label{eq:wgpmass}
+\end{equation}
+
+In observational analyses, the bias factor is usually held fixed to a precise value; equivalently, to remove the mass dependence of the halo bias $b_{\mathrm{g}} (M)$, we define:
+\begin{equation}
+    r_{\mathrm{g+}} (M)=\frac{w_{\mathrm{g+}} (M)}{\sqrt{w_{\mathrm{gg}} (M)}} =\frac{A_{\mathrm{IA}} (M) w_{\mathrm{\delta} \mathrm{+}}^{\mathrm{model}} (R_{\mathrm{p}} = R_{\mathrm{p}}^*) }{\sqrt{w_{\mathrm{\delta} \mathrm{\delta}}^{\mathrm{model}} (R_{\mathrm{p}}=R_{\mathrm{p}}^*)}} \propto A_{\mathrm{IA}} (M) \ ,
+	\label{eq:rg+}
+\end{equation}
+where we assume that the clustering signal $w_{\mathrm{gg}}(M)$ is positive (see Sect.~\ref{subsec:modelling} and Sect.~\ref{sec:resanddiscuss} for further discussion). We stress that, under our assumptions, this quantity depends only on the mass of the halo M.
+
+\subsection{Modelling}
+\label{subsec:modelling}
+The goal of this paper is to study the dependence on the mass of the amplitude $A_{\mathrm{IA}} (M)$ by studying the quantity $r_{\mathrm{g+}} (M)$.
+%\begin{equation}
+%A_{\mathrm{IA}} (M)\propto M^{\beta_{\mathrm{M}}} \ , 
+%	\label{eq:aia}
+%\end{equation}
+We adopt the following model for $r_{\mathrm{g+}} (M)$:
+\begin{equation}
+    r_{\mathrm{g+}} (M) = A \cdot  \biggl ( \frac{M}{M_{\mathrm{p}}} \biggl )^{\beta_{\mathrm{M}}} \ ,
+	\label{eq:modelrg+}
+\end{equation}
+with $A$ a generic amplitude which we will treat as a nuisance parameter, $M_{\mathrm{p}} = 10^{13.5} M_{\odot}/h_{70}$ a pivot mass, and $\beta_{\mathrm{M}}$ a free power-law index, which we intend to compare with the value predicted in Sect.~\ref{sec:theory}.
+
+To achieve this goal, we select the haloes from the catalogues described in Sect.~\ref{subsec:sim} in $n = 4$ logarithmic mass bins, between $10^{11.5} M_{\odot}$ and $10^{13.5} M_{\odot}$ for the MS and between $10^{13} M_{\odot}/h$ and $10^{15} M_{\odot}/h$ for the MXXL, we split them in $N = 3^3 = 27$ sub-boxes based on their positions inside the cube of the respective simulation, and calculate $w_{\mathrm{g+}}$ and $w_{\mathrm{gg}}$ for each of the N sub-samples by replacing the integrals in Eq.~\ref{eq:wgphat} and \ref{eq:wgghat} with a sum over 20 line-of-sight bins, each $2\Pi_{\mathrm{max}}/ 20 \ = 6 \ \mbox{Mpc}/h$ wide. We define the line of sight as the projection of the distance of the objects along the $z$ axis. We show the density distribution of the selected masses for the two catalogues in Fig.~\ref{fig:histo}.
+\begin{figure}
+	\centerline{
+	%\includegraphics[height = 8 cm, width = 9 cm]{img/histo.eps}}
+	\includegraphics[scale = 0.305, keepaspectratio]{img/histo.eps}}
+	\caption{Histogram showing the density distribution of the mass of the haloes.
+	% the Millennium-XXL catalogue (black line) contains about 6 times more objects than the Millennium catalogue (blue line). 
+	In this case, the mass of the halo is defined considering an overdensity of 200 times the critical value $(M_{200\mathrm{c}})$, as explained in Sect.~\ref{subsec:sim}. In the range where the selected bins overlap, the trend of the density agrees for the two simulations.}
+	% Note that in our analysis the Millennium-XXL catalogue is complete only above $10^{13} M_{\odot} h^{-1}$: below this threshold randomly selected haloes were used.}
+	\label{fig:histo}
+\end{figure}
+
+We then perform a likelihood analysis over the data to infer the posteriors of $A$ and $\beta_{\mathrm{M}}$: according to Bayes' theorem, if $\boldsymbol{d}$ is the vector of the data and $\boldsymbol{p}$ the vector of the parameters, 
+\begin{equation}
+    P(\boldsymbol{p} | \boldsymbol{d}) \propto P(\boldsymbol{d} | \boldsymbol{p}) \ P(\boldsymbol{p}) \propto e^{-\frac{1}{2} \chi ^2} P(\boldsymbol{p}) \ ,
+	\label{eq:bayes}
+\end{equation}
+with $P(\boldsymbol{p} | \boldsymbol{d})$ the posterior probability, $P(\boldsymbol{d} | \boldsymbol{p})$ the likelihood function, $P(\boldsymbol{p})$ the prior probability and $\chi ^2 = (\boldsymbol{d} - \boldsymbol{m})^T \mathbf{C}^{-1} (\boldsymbol{d} - \boldsymbol{m})$, with $\boldsymbol{m}$ the vector of the model and $\mathbf{C}^{-1}$ the precision matrix, the inverse of the covariance matrix $\mathbf{C}$. We assume uninformative flat priors in the fit with ranges $\log_{10} A \in [-1.9;-0.4]$ and $\beta_{\mathrm{M}} \in [-0.3;0.7]$. 
+
+We estimate the covariance matrix from the data:
+\begin{equation}
+     \mathbf{C}_{\mu \nu} = \frac{1}{N-1} \sum_{j = 1}^{N} (d_{j, \mu} - \overline{d}_{\mu})(d_{j, \nu} - \overline{d}_{\nu}) \ ,
+	\label{eq:covariance}
+\end{equation}
+with $\mu, \nu \in \{1, \dotso, n\}, \overline{d}_{\mu} = \frac{1}{N} \sum_{j=1}^{N} d_{j, \mu},$ and $d_{j, \mu}= r_{\mathrm{g+}}(M)$ for each sub-box and each mass bin, as defined in Eq.~\ref{eq:rg+}. We then invert the covariance matrix and correct the bias on the inverse to obtain an unbiased estimate of the precision matrix, given by:
+\begin{equation}
+     \mathbf{C}^{-1}_{\mathrm{unbiased}} = \frac{N - n -2}{N-1} \  \mathbf{C}^{-1} \ ,
+	\label{eq:precunbiased}
+\end{equation}
+where $N > n+2$ clearly holds \cite{Tayloretal2013}. The results of the analysis are presented in Sect.~\ref{sec:resanddiscuss}.
+
+The choice of $n$ and $N$ is constrained by many factors: first of all, if N is too large, the single values of $w_{\mathrm{gg}}$ (and $w_{\mathrm{g+}}$) tend to fluctuate around the mean, thus increasing the error bar and sometimes plunging below 0, which is unacceptable for our choice of $ r_{\mathrm{g+}} (M)$; see Eq.~\ref{eq:rg+}. Furthermore, we want $n$ to be large enough to be capable of displaying the trend of the signals along the whole mass range chosen. Finally, we need to take $n \ll N$ to avoid divergences related to the fact that we estimate the covariance from a finite number of samples \cite{Tayloretal2013}.
+
+\section{Results and discussion}
+\label{sec:resanddiscuss}
+\subsection{Simulation data}
+\label{subsec:simdatard}
+To be able to compare our results with those in \cite[figure 7]{vanUitertJoachimi2017} we convert our $M_{\mathrm{200c}}$ to $M_{\mathrm{200m}}$, defined as the mass within a halo which has mean density 200 times the mean background value at the redshift corresponding to the respective snapshot.
+
+The trend of $w_{\mathrm{g+}}$ and $w_{\mathrm{gg}}$ with $R_{\mathrm{p}}$ for 2 of the 4 mass bins for both the catalogues is shown in Fig.~\ref{fig:wgpwggrp}. Note that even though in the chosen interval $w_{\mathrm{gg}}$ is not always positive within the error bar, our choice of $n$ and $N$ and our large-bin average ensure that Eq.~\ref{eq:rg+} always returns a real value. The points shown in Fig.~\ref{fig:wgpwggrp} are the arithmetic mean of the $N$ values for each mass bin, while the error bars are the standard deviation of the values. The overall behaviour of $w_{\mathrm{g+}}$ and $w_{\mathrm{gg}}$ agrees with previous works \cite{Joachimietal2011, vanUitertJoachimi2017}; in particular, we clearly detect positive intrinsic alignment in all samples, implying that dark matter haloes tend to point towards the position of other haloes. Also, it is worth noting that both signals increase with increasing mass.
+\begin{figure}
+	\centerline{
+	\subfloat[$w_{\mathrm{g+}}$ and $w_{\mathrm{gg}}$ for the Millennium simulation.]
+	{\includegraphics[scale = 0.7, keepaspectratio]{img/trend_millennium.eps}
+	\label{wgpwggrp1}}}
+	\centerline{
+	\subfloat[$w_{\mathrm{g+}}$ and $w_{\mathrm{gg}}$ for the Millennium-XXL simulation.]	
+	{\includegraphics[scale = 0.7, keepaspectratio]{img/trend_mxxl.eps}
+	\label{wgpwggrp2}}}
+	\caption{Trend of the intrinsic alignment signal $w_{\mathrm{g+}}$ and the cluster signal $w_{\mathrm{gg}}$ with the comoving transverse distance $R_{\mathrm{p}}$ for \protect\subref{wgpwggrp1} the Millennium and \protect\subref{wgpwggrp2} the Millennium-XXL simulation. The pink lines indicate the $6 < R_{\mathrm{p}} / \ \mbox{Mpc}/h < 30 $ interval. The mass ranges are displayed considering $M_{\mathrm{200m}}$ as the mass of the halo, and correspond to the second and the fourth bin of our division, explained in detail in Sect.~\ref{subsec:modelling}. In the graph, points are slightly horizontally shifted, so that they do not overlap; negative values are displayed in absolute value with open symbols of the same colour. An increasing trend with mass is clear in each panel separately, and comparing the two panels as well.}
+	\label{fig:wgpwggrp}
+\end{figure}
+
+We then study the dependence of $w_{\mathrm{g+}}, w_{\mathrm{gg}}$ and $r_{\mathrm{g+}}$ on the mass of the halo. In Fig.~\ref{fig:vsmass} we also include, for the Millennium simulation only, two more results: grey dots represent the signal from the objects at redshift $z = 0.46$, while open black dots represent the signal from the objects at $z = 0$ obtained using the reduced inertia tensor (\textit{rit}, as in Eq.~\ref{eq:rit}), instead of the simple one, to measure the shapes of the haloes.
+\begin{figure}
+	\centerline{
+	\includegraphics[scale = 0.7, keepaspectratio]{img/compare.eps}}
+	%\includegraphics[height = 8 cm, width = 9 cm]{img/compare.eps}}
+	\caption{Trend of the intrinsic alignment signal $w_{\mathrm{g+}}$, the cluster signal $w_{\mathrm{gg}}$ and $r_{\mathrm{g+}}$ as defined in Eq.~\ref{eq:rg+} with the halo mass $M_{\mathrm{200m}}$ for the Millennium and the Millennium-XXL simulations. The label \textit{sit} stands for simple inertia tensor, while \textit{rit} means reduced inertia tensor; note that for the MXXL data only the simple inertia tensor is available, as mentioned in Sect.~\ref{subsec:haloshapes}. The points are not placed at the midpoint of the bin, but at the value corresponding to the arithmetic mean of the mass of the objects. The red and green lines represent the best-fit line for the MS and MXXL likelihood analyses respectively; they are drawn using the parameters reported in Table~\ref{tab:param}. Points showing the results from the \textit{rit} choice are horizontally shifted by a small amount, so that they do not overlap with the corresponding \textit{sit} dots.}
+	\label{fig:vsmass}
+\end{figure}
+As one can see, despite the use of two different halo finders and two different quantities to measure the shapes, as mentioned in Sect.~\ref{subsec:sim} and in Sect.~\ref{subsec:haloshapes}, respectively, the MS and the MXXL follow the same trend, and yield consistent results in the small mass range where they overlap; furthermore, all three $w_{\mathrm{g+}}, w_{\mathrm{gg}}$ and $r_{\mathrm{g+}}$ increase with increasing mass. As a side note, we mention that the \textit{rit} leads to lower alignment signals, as found in \cite{Joachimietal2013b}, and that, on the other hand, these signals increase with increasing redshift. 
+
+We proceed by showing the results of the likelihood analysis described in Sect.~\ref{subsec:modelling}: 
+%Fig.~\ref{fig:post}\protect\subref{fig:postsim1} and Fig.~\ref{fig:post}\protect\subref{fig:postsim2} display the outcomes of the separated analysis on the two catalogues, while 
+Fig.~\ref{fig:post}\protect\subref{fig:postsim3} shows the results from the single catalogues and from the joint analysis of the two simulations, obtained by multiplying the likelihood functions and assuming the same flat priors on the parameters. The most stringent bounds come from the M-XXL simulation, while the MS yields larger errors on the parameters, albeit consistent with the results of the MXXL. The joint analysis returns a value for the slope compatible with $\beta_{\mathrm{M}} = 1/3$, which agrees remarkably well with the predictions made in Sect.~\ref{sec:theory} for a DM-only Universe; in particular, the tightest constraints are obtained with cluster-size objects ($0.5$ Mpc$-1.5$ Mpc), where the non-linear matter power spectrum is proportional to $k^{-2.2}$ \cite{Blasetal2011}, yielding $\beta_{\mathrm{M}} \simeq 0.37$, excellently compatible with our high-mass results. Moreover, we find that neither the inertia tensor definition nor the chosen redshift for our default analysis have significant impact on our conclusions for $\beta_{\mathrm{M}}$. We report all the best-fit values, together with their respective errors and reduced $\chi^2$, in Table~\ref{tab:param}.
+\begin{figure*}
+	%\centerline{
+	%\subfloat[Posterior analysis for the Millennium simulation.]
+	%{\includegraphics[scale = 0.7]{img/inference_millennium.eps}
+	%\label{fig:postsim1}}
+	%\subfloat[Posterior analysis for the Millennium-XXL simulation.]	
+	%{\includegraphics[scale = 0.7]{img/inference_mxxl.eps}
+	%\label{fig:postsim2}} }
+	\centerline{	
+	\subfloat[Single and joint likelihood analysis for the simulations.]
+	{\includegraphics[scale = 0.7, keepaspectratio]{img/inference_joint.eps}
+	\label{fig:postsim3}}
+	\subfloat[Likelihood analysis for the real data.]
+	{\includegraphics[scale = 0.7, keepaspectratio]{img/inference_real.eps}
+	\label{fig:postreal}} }
+	\caption{Likelihood analysis for \protect\subref{fig:postsim3} the Millennium simulation, the M-XXL simulation, joint MS and MXXL, and \protect\subref{fig:postreal} real data; note that, while the same range for $\beta_{\mathrm{M}}$ is assumed, the ranges of the prefactors are quite different. The bottom-left graph in the right panel shows the 2-D posterior for the real data, while the bottom-left graph in the left panel shows the contour lines of the 2-D posteriors for all the simulations (single and joint), but the 2-D posterior for the joint analysis only. All other sub-panels show the marginalized 1-D posterior normalized to a peak amplitude of 1. Contour lines enclose the 68\% and 95\% confidence intervals, dots and vertical solid lines indicate the best-fitting values, while dashed lines represent the $1$-$\sigma$ confidence interval. We note that the MS returns larger error bars, but the results are consistent for the two catalogues, while real data yield a value of the slope which is incompatible with the one from the joint analysis. The exact values and errors of $A$, $A_r$ and $\beta_{\mathrm{M}}$ are presented in Table~\ref{tab:param}.}
+	\label{fig:post}
+\end{figure*}
+
+\begin{table*}
+	\centering
+	\caption{Results of the likelihood analysis over the Millennium simulation, the Millennium-XXL simulation, their joint contribution, the Milennium simulation at $z = 0.46$, the Millennium simulation using the reduced inertia tensor and real data. Note that the values from the snapshot at different redshift and from the reduced inertia tensor assumption are compatible with the outcomes of the MS only. A discussion about the reasons why the reduced $\chi^2$ values obtained considering the two simulations separately and real data significantly differ from 1 is present in the text.}
+	\label{tab:param}
+	\begin{tabular}{c||cccc} % six columns, alignment for each
+		\hline \hline
+		\ & MS only & MXXL only & Joint \\ 
+		\hline
+		$\beta_{\mathrm{M}}$					  & $0.29^{+0.14}_{-0.16}$   & $0.36^{+0.03}_{-0.03}$  & $0.35^{+0.03}_{-0.03}$ \\
+		$\log_{10} (A \ [\mbox{Mpc}/h]^{1/2})$ & $-0.85^{+0.17}_{-0.26}$ & $-0.82^{+0.01}_{-0.02}$ & $-0.82^{+0.01}_{-0.01}$ \\
+		$\chi^2 / \mbox{dof}$			  & $0.03$                                 & $1.60$			 & $0.62$			 \\
+		\hline \hline
+		\ & MS, $z=0.46$ & MS, \textit{rit} & \ \\
+		\hline
+		$\beta_{\mathrm{M}}$					  &  $0.34^{+0.12}_{-0.17}$ & $0.29^{+0.13}_{-0.15}$ & \\
+		$\log_{10} (A \ [\mbox{Mpc}/h]^{1/2})$ & $-0.59^{+0.17}_{-0.26}$ &  $-1.07^{+0.17}_{-0.25}$ & \\
+		$\chi^2 / \mbox{dof}$			      & $0.05$			      & $0.01$	& \\
+		\hline \hline
+		\ & Real data & \ & \ \\
+		\hline
+		$\beta_{\mathrm{M}}$ & $0.56^{+0.05}_{-0.05}$ & & \\
+		$\log_{10} A_r $ & $0.61^{+0.03}_{-0.04}$ & &  \\
+		$\chi^2 / \mbox{dof}$			  & $1.68$  & &  \\
+		\hline \hline 
+		\end{tabular}
+\end{table*}
+
+The very low reduced $\chi^2$ value of the MS can be attributed to the fact that all the points lie along the best-fit line, while we note that the high value of the MXXL can be lowered to 0.82 by excluding the highest-mass point: in this last bin, we probably underestimate the error on the data point, since we deal with a very little number of objects, many less than in the other bins, as one can see from Fig.~\ref{fig:histo}.
+\subsection{Observation data}
+\label{subsec:obsdatard}
+To compare our results with real data, we also take into consideration the analysis presented in \cite{vanUitertJoachimi2017}: in that work, the clusters contained in the redMaPPer catalogue \cite{Rykoffetal2014} version 6.3 were used to constrain the intrinsic alignment signal amplitude $A_{\mathrm{IA}}$, which was then studied as a function of the halo mass.
+
+We repeat the likelihood analysis for the collection of observational datasets used in \cite[figure 7]{vanUitertJoachimi2017}: we consider all 21 data points, neglect the error bars on the mass, which are smaller than the errors on $A_{\mathrm{IA}}$ and whose negligible impact is studied in \cite{vanUitertJoachimi2017}, and treat all the data as independent, so that the covariance matrix is diagonal. This latter assumption is safe, since the data all have used different approaches to estimate their errors, and thus the noise impact, besides being hard to model, can be neglected. We show the points, together with the best-fit line from our analysis, in Fig.~\ref{fig:realdata}.
+\begin{figure}
+	\centerline{	
+	\includegraphics[scale = 0.7, keepaspectratio]{img/real_data.eps}}
+	\caption{Real data, as shown in \cite[figure 7]{vanUitertJoachimi2017}, with the best-fit line from our likelihood analysis. The exact values of the parameters are shown in Table~\ref{tab:param}.}
+	\label{fig:realdata}
+\end{figure}
+
+In this case, we need to slightly change the model in Eq.~\ref{eq:modelrg+}, since we are dealing with a different quantity. We assume the same power-law model with a different prefactor $A_r$, which 
+%\begin{equation}
+    %A_{\mathrm{IA}} (M) = A_r \cdot  \biggl ( \frac{M}{M_{\mathrm{p}}} \biggl )^{\beta_{\mathrm{M}}} \ ,
+	%\label{eq:modelrg+data}
+%\end{equation}
+has an altered meaning and is now dimensionless, thus making it impossible to directly compare its value to the one that is suggested by the simulation data. We also assume a different range regarding the flat prior in the fit for this new parameter, namely $\log_{10} A_r \in [0.4;0.9]$. 
+
+The outcomes of our analysis are shown in Fig.~\ref{fig:post}\protect\subref{fig:postreal} and in Table~\ref{tab:param}: we observe that the value of the reduced chi-square for this latter analysis is not as good as in the joint analysis with the simulated data, but can be improved to 1.36 by excluding the high-redshift SDSS results (filled-blue diamonds) without affecting the value of the slope in a significant way.
+
+While the disagreement between the values of the prefactor can be easily justified, since we are using different definitions of the amplitude of the intrinsic alignment signal, the incompatibility between the values of the slope $\beta_{\mathrm{M}}$ between simulation and real data is significant, and can be attributed to the fact that, while we observe bright matter, the simulations and the theory model only consider dark matter. A more detailed discussion about the reasons that could explain the discrepancy is presented in the next section.
+
+\section{Conclusions}
+In this work we studied the dependence of the intrinsic alignment amplitude on the mass of dark matter haloes, using data from the Millennium and Millennium-XXL N-body simulations.
+
+We derived the intrinsic alignment scaling with mass in the tidal alignment paradigm for a dark matter-only Universe, and predicted that it follows a power law with slope $\beta_{\mathrm{M}} = 1/2\ldots 1/3$. We mimicked the observational approach to measure the halo shape-position alignments, and performed a Bayesian analysis on our data to test the theoretical forecast. We found that simulation data agree remarkably well with each other and, more noticeably, with $\beta_{\mathrm{M}} = 1/3$; in particular, the joint analysis yields $\beta_{\mathrm{M}} = 0.35^{+0.03}_{-0.03}$. Furthermore, there is no dependence of these results on redshift or on the definition of the inertia tensor which describes the shape of the halo. 
+
+We repeated out statistical analysis using observational data, inferring a value of $\beta_{\mathrm{M}} = 0.56^{+0.05}_{-0.05}$, which is not compatible with the simulation results. The discrepancy can be attributed to the fact that simulations consider a dark-matter only Universe, while we observe luminous matter. A possible future work in this sense would be then to test the slope $\beta_{\mathrm{M}}$ using a hydrodynamical simulation large enough to contain clusters, which could then account for the additional effects of baryons and gas.
+
+We finally point out that the presence of baryons could significantly affect the shape of the host dark matter halo, especially in the inner regions, as hydrodynamical simulations suggest (\cite{Kiesslingetal2015}, and references therein). For example, \cite{Bailinetal2005} found an increasing halo sphericity decreasing with increasing radius (and thus with increasing mass), in agreement with \cite{Kazantzidisetal2004}, while more recently \cite{Tennetietal2014} and \cite{Velliscigetal2015a} discovered that galaxies are more misaligned with the hosting halo at lower masses.
+
+All these papers suggest that it is safe to assume that galaxies and clusters of galaxies are less aligned with each other than haloes at lower mass values, which means that the slope $\beta_{\mathrm{M}}$ expected from the observation data should be higher than in the case of a dark matter-only scenario, in agreement with what we found in this work.
+
+%Then discuss mass dependence of link between halo shape and galaxy/cluster shape: possible mechanisms (anything in the literature?); could this explain discrepancy in power-law index?
+%Include: differences between dark and bright matter alignments originate from 1. different ellipticities and 2. misalignment of galaxy light distributions (at low mass) and satellite distributions (at high mass). All these are likely to have some mass dependence. Browse literature to find any evidence for such a mass dependence. If there is, does it qualitatively go in the right direction to explain larger beta_{\mathrm{M}}? This is a hard question, we can be more speculative in the conclusions.
+
+\section*{Acknowledgements}
+%We thank Edo van Uitert for sharing with us the real data points and for useful discussion about the correct mass units to use, Mario Bonamigo and Raul Angulo for helpful information about the Millennium-XXL catalogue snapshots, and Mario Bonamigo in addition for providing us with the Millennium-XXL catalogue we used in this work. DP acknowledges support by an Erasmus+ traineeship grant, BJ acknowledges support by an STFC Ernest Rutherford Fellowship, grant reference ST/J004421/1.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%% REFERENCES %%%%%%%%%%%%%%%%%%
+
+% The best way to enter references is to use BibTeX:
+
+\bibliographystyle{unsrt}
+\bibliography{bibliotesi} % if your bibtex file is called example.bib
+
+
+\section*{Acknowledgements}
+
+\emph{This work would have never seen the light of day without the thorough and patient help of Professor Antonino Marcianò, from Fudan University, and the experienced effort of Professor Denis Bastieri, from the University of Padua.} 
+%A thank to the Fermi LAT collaboration for their help in data analysis.}
+
+\emph{Thanks to Marco Cirelli for useful discussion about the Mathematica$^{\circledR}$ software used above.}
+
+\emph{A special thank to Giancarlo, ``stanco ma non stufo", to Nevia, who shows her motherly love by caring more than me, and to Gianluca, my wise firm brother.}
+
+\emph{A particular mention, then, must be made to all the people who supported me through all of this, and despite whom I was able to reach this goal; they don't need to be named, they already know they are important to me and that this work is partly theirs, too.}
+
+
+\end{document}
